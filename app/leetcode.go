@@ -63,8 +63,11 @@ func (a *APP) getUserProfile(r *http.Request) (*leetcode.UserProfile, error) {
 	}
 
 	if info == nil {
+		zlog.ZInfo().Str("User", name).Msg("[profile] user not found")
 		return nil, nil
 	}
+
+	zlog.ZInfo().Str("User", name).Msg("[profile] success")
 
 	go func() {
 		a.cache.SaveUserProfile(name, isCN, info)

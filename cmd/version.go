@@ -10,9 +10,9 @@ import (
 
 var versionCMD = &cobra.Command{
 	Use:   "version",
-	Short: "show version",
+	Short: "Show version",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("%ss %s %s",
+		fmt.Printf("%s %s %s",
 			app.BuildAppName,
 			app.BuildVersion,
 			app.BuildTime,

@@ -8,6 +8,7 @@ import (
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/cache/memory"
 	"github.com/haozibi/leetcode-badge/internal/cache/redis"
+	"github.com/haozibi/leetcode-badge/static"
 
 	"github.com/gorilla/mux"
 	"github.com/haozibi/zlog"
@@ -27,7 +28,7 @@ func New(c *Config) *APP {
 	a.debug = c.Debug
 
 	if a.debug {
-		zlog.NewBasicLog(os.Stderr, zlog.WithDebug(true))
+		zlog.NewBasicLog(os.Stdout, zlog.WithDebug(true))
 	}
 
 	switch c.CacheType {
@@ -44,6 +45,12 @@ func (a *APP) Run() error {
 
 	if a.err != nil {
 		return a.err
+	}
+
+	err := static.RestoreAssets("./", "static")
+	if err != nil {
+		zlog.ZError().AnErr("Static", err).Msg("[Init]")
+		return err
 	}
 
 	r := mux.NewRouter()

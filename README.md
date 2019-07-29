@@ -73,5 +73,5 @@
 
 ## 致谢
 
-- [Picas](https://github.com/djyde/Picas):logo 生成
+- [Picas](https://github.com/djyde/Picas): logo 生成
 - [shields.io](https://shields.io): badge 生成

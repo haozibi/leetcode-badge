@@ -26,7 +26,7 @@ build: clean bindata govet
 build-linux: clean bindata govet
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
 
-bindata: 
+bindata: clean
 	go get github.com/jteeuwen/go-bindata/...
 	go-bindata -nomemcopy -pkg=static \
 		-debug=false \
