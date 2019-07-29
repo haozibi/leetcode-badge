@@ -12,12 +12,14 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/haozibi/zlog"
+	"golang.org/x/sync/singleflight"
 )
 
 type APP struct {
 	debug  bool
 	config *Config
 	cache  cache.Cache
+	group  *singleflight.Group
 	err    error
 }
 
@@ -26,6 +28,7 @@ func New(c *Config) *APP {
 	a := new(APP)
 	a.config = c
 	a.debug = c.Debug
+	a.group = new(singleflight.Group)
 
 	if a.debug {
 		zlog.NewBasicLog(os.Stdout, zlog.WithDebug(true))

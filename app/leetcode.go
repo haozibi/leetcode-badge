@@ -57,23 +57,34 @@ func (a *APP) getUserProfile(r *http.Request) (*leetcode.UserProfile, error) {
 		return info, nil
 	}
 
-	info, err = leetcode.GetUserProfile(name, isCN)
+	key := fmt.Sprintf("%s_%v", name, isCN)
+
+	fn := func() (interface{}, error) {
+		info, err = leetcode.GetUserProfile(name, isCN)
+		if err != nil {
+			return nil, err
+		}
+
+		if info == nil {
+			info = new(leetcode.UserProfile)
+			zlog.ZInfo().Str("User", name).Msg("[profile] user not found")
+		} else {
+			zlog.ZInfo().Str("User", name).Msg("[profile] success")
+		}
+
+		err = a.cache.SaveUserProfile(name, isCN, info)
+		if err != nil {
+			return nil, err
+		}
+		return info, nil
+	}
+
+	result, err, _ := a.group.Do(key, fn)
 	if err != nil {
 		return nil, err
 	}
 
-	if info == nil {
-		zlog.ZInfo().Str("User", name).Msg("[profile] user not found")
-		return nil, nil
-	}
-
-	zlog.ZInfo().Str("User", name).Msg("[profile] success")
-
-	go func() {
-		a.cache.SaveUserProfile(name, isCN, info)
-	}()
-
-	return info, nil
+	return result.(*leetcode.UserProfile), nil
 }
 
 func (a *APP) getBadge(r *http.Request, typeName badgeType, info *leetcode.UserProfile) ([]byte, error) {
@@ -82,7 +93,7 @@ func (a *APP) getBadge(r *http.Request, typeName badgeType, info *leetcode.UserP
 
 	var key, left, right string
 
-	if info == nil {
+	if info == nil || info.UserSlug == "" {
 		typeName = UserNotFound
 	}
 
