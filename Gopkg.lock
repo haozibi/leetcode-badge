@@ -128,6 +128,14 @@
   pruneopts = "UT"
   revision = "ca1201d0de80cfde86cb01aea620983605dfe99b"
 
+[[projects]]
+  branch = "master"
+  digest = "1:4afdcaf2f776edc7fc481d0c4cc5a1ebae7e407076690c8c8dbab6f287c31c76"
+  name = "golang.org/x/sync"
+  packages = ["singleflight"]
+  pruneopts = "UT"
+  revision = "112230192c580c3556b8cee6403af37a4fc5f28c"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
@@ -141,6 +149,7 @@
     "github.com/patrickmn/go-cache",
     "github.com/pkg/errors",
     "github.com/spf13/cobra",
+    "golang.org/x/sync/singleflight",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
