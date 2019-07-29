@@ -105,19 +105,18 @@ func getUserProfile(userName string) (*UserProfile, error) {
 		return nil, err
 	}
 
-	l := make([]string, 0, 10)
-
 	dom, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
 	if err != nil {
 		return nil, errors.Wrap(err, "goquery new")
 	}
 
-	dom.Find(".progress-bar-success").Each(func(i int, selection *goquery.Selection) {
-		l = append(l, cleanText(selection.First().Text()))
+	var p UserProfile
+	dom.Find(".list-group-item").Each(func(i int, selection *goquery.Selection) {
+		if err2 := getData(selection, &p); err2 != nil {
+			err = err2
+		}
 	})
 
-	var p UserProfile
-	err = getData(l, &p)
 	if err != nil {
 		return nil, errors.Wrap(err, "get user profile")
 	}
@@ -133,11 +132,7 @@ func getUserProfile(userName string) (*UserProfile, error) {
 	return &p, nil
 }
 
-func getData(l []string, p *UserProfile) (err error) {
-
-	if len(l) != 6 {
-		return errors.New("parse error")
-	}
+func getData(selection *goquery.Selection, p *UserProfile) (err error) {
 
 	var parse = func(s string) (int, int, error) {
 
@@ -158,14 +153,20 @@ func getData(l []string, p *UserProfile) (err error) {
 		return n1, n2, nil
 	}
 
-	p.AcTotal, p.QuestionTotal, err = parse(l[1])
-	if err != nil {
-		return err
+	if strings.Contains(selection.Text(), "Solved Question") {
+		solved := cleanText(selection.Find("span").Text())
+		p.AcTotal, p.QuestionTotal, err = parse(solved)
+		if err != nil {
+			return err
+		}
 	}
 
-	p.AcSubmissions, p.TotalSubmissions, err = parse(l[2])
-	if err != nil {
-		return err
+	if strings.Contains(selection.Text(), "Accepted Submission") {
+		accepted := cleanText(selection.Find("span").Text())
+		p.AcSubmissions, p.TotalSubmissions, err = parse(accepted)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

@@ -182,14 +182,14 @@ func (a *APP) Badge(w http.ResponseWriter, r *http.Request) {
 	info, err := a.getUserProfile(r)
 	if err != nil {
 		zlog.ZError().Msgf("%+v", err)
-		w.WriteHeader(http.StatusBadGateway)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	body, err := a.getBadge(r, name, info)
 	if err != nil {
 		zlog.ZError().Msgf("%+v", err)
-		w.WriteHeader(http.StatusBadGateway)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
@@ -201,14 +201,14 @@ func (a *APP) Profile(w http.ResponseWriter, r *http.Request) {
 	info, err := a.getUserProfile(r)
 	if err != nil {
 		zlog.ZError().Msgf("%+v", err)
-		w.WriteHeader(http.StatusBadGateway)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	body, err := a.getBadge(r, Default, info)
 	if err != nil {
 		zlog.ZError().Msgf("%+v", err)
-		w.WriteHeader(http.StatusBadGateway)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 

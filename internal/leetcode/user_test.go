@@ -30,7 +30,7 @@ func TestGetUserProfile(t *testing.T) {
 
 func TestGetUserProfileEN(t *testing.T) {
 
-	info, err := getUserProfile("haozi2123123bi")
+	info, err := getUserProfile("ghost_141")
 	if err != nil {
 		panic(err)
 	}
