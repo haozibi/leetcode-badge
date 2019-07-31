@@ -4,12 +4,15 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"sync"
+	"time"
 
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/cache/memory"
 	"github.com/haozibi/leetcode-badge/internal/cache/redis"
 	"github.com/haozibi/leetcode-badge/static"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/haozibi/zlog"
 	"golang.org/x/sync/singleflight"
@@ -56,12 +59,43 @@ func (a *APP) Run() error {
 		return err
 	}
 
-	r := mux.NewRouter()
+	exit := make(chan error)
+	var once sync.Once
+	var wg WaitGroupWrapper
 
+	exitFunc := func(err error) {
+		once.Do(func() {
+			if err != nil {
+				exit <- err
+			}
+		})
+	}
+
+	wg.Wrap(func() {
+		exitFunc(a.runHTTP())
+	})
+
+	wg.Wrap(func() {
+		exitFunc(a.runMonitor())
+	})
+
+	err1 := <-exit
+	return err1
+}
+
+func (a *APP) runHTTP() error {
+	r := mux.NewRouter()
 	setRouter(r, a, ioutil.Discard)
 
+	srv := &http.Server{
+		Addr:         a.config.ListenAddr,
+		WriteTimeout: 120 * time.Second,
+		ReadTimeout:  120 * time.Second,
+		Handler:      handlers.RecoveryHandler()(r),
+	}
+
 	zlog.ZInfo().Str("Addr", a.config.ListenAddr).Msg("[http]")
-	if err := http.ListenAndServe(a.config.ListenAddr, r); err != nil {
+	if err := srv.ListenAndServe(); err != nil {
 		return err
 	}
 
@@ -74,4 +108,16 @@ type Config struct {
 	CachePasswd string
 	ListenAddr  string
 	Debug       bool
+}
+
+type WaitGroupWrapper struct {
+	sync.WaitGroup
+}
+
+func (w *WaitGroupWrapper) Wrap(cb func()) {
+	w.Add(1)
+	go func() {
+		cb()
+		w.Done()
+	}()
 }

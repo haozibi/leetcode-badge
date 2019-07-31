@@ -76,6 +76,7 @@ func (a *APP) getUserProfile(r *http.Request) (*leetcode.UserProfile, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		return info, nil
 	}
 
