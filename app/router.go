@@ -6,14 +6,19 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func setRouter(r *mux.Router, a *APP, w io.Writer) {
 
+	// r.Use(Monitor)
 	r.HandleFunc("/version", a.Version)
 
 	apiCNV1 := r.PathPrefix("/v1cn").Subrouter()
 	apiENV1 := r.PathPrefix("/v1").Subrouter()
+
+	apiCNV1.Use(Monitor)
+	apiENV1.Use(Monitor)
 
 	router := make([]*mux.Router, 0, 5)
 	router = append(router, apiCNV1)
@@ -51,4 +56,10 @@ func setRouter(r *mux.Router, a *APP, w io.Writer) {
 		)
 	}
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+}
+
+// Monitor Monitor
+func Monitor(h http.Handler) http.Handler {
+	return promhttp.InstrumentHandlerCounter(requestsTotal,
+		promhttp.InstrumentHandlerDuration(requestDurationHistogram, h))
 }

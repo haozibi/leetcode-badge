@@ -64,6 +64,9 @@ var runCMD = &cobra.Command{
 		err := a.Run()
 		if err != nil {
 			fmt.Println(err)
+			if debug {
+				fmt.Printf("%+v", err)
+			}
 			os.Exit(1)
 		}
 	},
