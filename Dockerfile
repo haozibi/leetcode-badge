@@ -1,4 +1,4 @@
-ARG GO_VERSION=1.12.7
+ARG GO_VERSION=1.12.9
 
 FROM golang:${GO_VERSION}-alpine3.9 AS build-env
 
