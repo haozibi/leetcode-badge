@@ -8,14 +8,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+var client = &http.Client{
+	Timeout: 5 * time.Second,
+}
+
 // SendRequest send request
 func SendRequest(req *http.Request) ([]byte, *http.Response, error) {
-
-	timeout := 10 * time.Second
-
-	client := &http.Client{
-		Timeout: timeout,
-	}
 
 	resp, err := client.Do(req)
 	if err != nil {

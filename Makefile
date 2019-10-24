@@ -5,12 +5,14 @@ GOOS?=linux
 GOARCH?=amd64
 
 VERSION?=$(shell git describe --tags --always)
+COMMIT_HASH?=$(shell git rev-parse --short HEAD 2>/dev/null)
 NOW?=$(shell date -u '+%Y/%m/%d/%I:%M:%S%Z')
 PROJECT?=github.com/haozibi/${APP}
 
 LDFLAGS += -X "${PROJECT}/app.BuildTime=${NOW}"
 LDFLAGS += -X "${PROJECT}/app.BuildVersion=${VERSION}"
 LDFLAGS += -X "${PROJECT}/app.BuildAppName=${APP}"
+LDFLAGS += -X "${PROJECT}/app.CommitHash=${COMMIT_HASH}"
 BUILD_TAGS = ""
 BUILD_FLAGS = "-v"
 # PROTO_LOCATION = "internal/protocol_pb"
@@ -27,7 +29,7 @@ build-linux: clean bindata govet
 	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
 
 bindata: clean
-	@ go get github.com/jteeuwen/go-bindata/...
+	@ export GOPROXY=https://goproxy.cn && go get github.com/jteeuwen/go-bindata/...
 	@ go-bindata -nomemcopy -pkg=static \
 		-debug=false \
 		-o=static/static.go \

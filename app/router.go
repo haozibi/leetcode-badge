@@ -51,11 +51,24 @@ func setRouter(r *mux.Router, a *APP, w io.Writer) {
 			handlers.CombinedLoggingHandler(w, http.HandlerFunc(a.Badge)),
 		)
 
+		// 排名记录图表
+		api.Methods(http.MethodGet).Path("/chart/ranking/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w,
+				http.HandlerFunc(a.HistoryChart)),
+		)
+
+		// 答题数量图表
+		api.Methods(http.MethodGet).Path("/chart/solved/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w,
+				http.HandlerFunc(a.HistoryChart)),
+		)
+
+		// 获得个人信息
 		api.Methods(http.MethodGet).Path("/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, http.HandlerFunc(a.Profile)),
 		)
 	}
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/html/")))
 }
 
 // Monitor Monitor

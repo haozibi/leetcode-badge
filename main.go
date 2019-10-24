@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	zlog.NewBasicLog(os.Stdout, zlog.WithNoColor(true))
+	zlog.NewBasicLog(os.Stdout, zlog.WithNoColor(false))
 
 	cmd.Execute()
 }

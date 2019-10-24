@@ -7,6 +7,7 @@
 <!-- TOC -->
 
 - [leetcode 徽标](#leetcode-徽标)
+    - [快速开始](#快速开始)
     - [使用](#使用)
         - [用户名](#用户名)
         - [排名](#排名)
@@ -14,15 +15,25 @@
         - [通过题目数/总题目数 比例](#通过题目数总题目数-比例)
         - [通过提交/总提交](#通过提交总提交)
         - [通过提交/总提交 比例](#通过提交总提交-比例)
+        - [排名记录图表](#排名记录图表)
+        - [答题数量图表](#答题数量图表)
     - [自定义](#自定义)
     - [致谢](#致谢)
 
 <!-- /TOC -->
 
 
-## 使用
+## 快速开始
 
-*数据 15 分钟更新一次*，[https://leetcode.com/haozibi](https://leetcode.com/haozibi) 的 `{LeetCode_ID}` 为 *haozibi*
+根据 URL [https://leetcode.com/haozibi](https://leetcode.com/haozibi) 获得唯一的标识 `{LeetCode_ID}`
+
+例如: [https://leetcode.com/haozibi](https://leetcode.com/haozibi) 的 `{LeetCode_ID}` 为 **haozibi**
+
+替换示例链接中的 `{LeetCode_ID}` 即可
+
+`https://leetcode.com/haozibi` + `https://lc.coding.gs/v1/{LeetCode_ID}.svg` => `https://lc.coding.gs/v1cn/haozibi.svg` => ![](https://lc.coding.gs/v1cn/haozibi.svg)
+
+## 使用
 
 ### 用户名
 
@@ -60,6 +71,28 @@
 - ![](https://lc.coding.gs/v1cn/accepted-rate/haozibi.svg)
 - LeetCode: `https://lc.coding.gs/v1/accepted-rate/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://lc.coding.gs/v1cn/accepted-rate/{LeetCode_ID}.svg`
+
+### 排名记录图表
+
+![](https://lc.coding.gs/v1cn/chart/ranking/haozibi.svg)
+
+- LeetCode: `https://lc.coding.gs/v1/chart/ranking/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://lc.coding.gs/v1cn/chart/ranking/{LeetCode_ID}.svg`
+
+支持 `day` 参数，指定查询天数，最大查询日期为 30 天
+
+例如: 查询之前 15 天的数据，https://lc.coding.gs/v1cn/chart/ranking/haozibi.svg?day=15
+
+### 答题数量图表
+
+![](https://lc.coding.gs/v1cn/chart/solved/haozibi.svg)
+
+- LeetCode: `https://lc.coding.gs/v1/chart/solved/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://lc.coding.gs/v1cn/chart/solved/{LeetCode_ID}.svg`
+
+支持 `day` 参数，指定查询天数，最大查询日期为 30 天
+
+例如: 查询之前 15 天的数据，https://lc.coding.gs/v1cn/chart/solved/haozibi.svg?day=15
 
 ## 自定义
 

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"net/http"
 	"time"
 
@@ -43,9 +44,26 @@ func (a *APP) runMonitor() error {
 		Handler:      handlers.RecoveryHandler()(r),
 	}
 
+	go func() {
+		select {
+		case <-a.shutdown:
+			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+			defer cancel()
+			err := srv.Shutdown(ctx)
+			if err != nil {
+				zlog.ZError().Msgf("[metrics] Shutdown %+v", err)
+			}
+			select {
+			case <-ctx.Done():
+				zlog.ZDebug().Msg("[metrics] timeout of 3 seconds.")
+			}
+		}
+	}()
+
 	zlog.ZInfo().Str("Addr", addr).Msg("[metrics]")
 
-	if err := srv.ListenAndServe(); err != nil {
+	if err := srv.ListenAndServe(); err != nil &&
+		err != http.ErrServerClosed {
 		return errors.Wrap(err, "metrics run error")
 	}
 	return nil

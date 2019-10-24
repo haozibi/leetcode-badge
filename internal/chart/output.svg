@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1024" height="400">\n<path  d="M 0 0
+L 1024 0
+L 1024 400
+L 0 400
+L 0 0" style="stroke-width:0;stroke:rgba(255,255,255,1.0);fill:rgba(255,255,255,1.0)"/><path  d="M 53 26
+L 965 26
+L 965 351
+L 53 351
+L 53 26" style="stroke-width:0;stroke:rgba(255,255,255,1.0);fill:rgba(255,255,255,1.0)"/><path  d="M 53 351
+L 965 351" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><path  d="M 53 351
+L 53 356" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="20" y="373" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">2019-10-29</text><path  d="M 965 351
+L 965 356" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="932" y="373" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">2019-10-30</text><text x="356" y="395" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">Power By https://github.com/haozibi/leetcode-badge</text><path  d="M 966 351
+L 966 26" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><path  d="M 966 188
+L 971 188" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="976" y="194" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">62</text><path  d="M 966 351
+L 971 351" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="976" y="357" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0</text><path  d="M 966 26
+L 971 26" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="976" y="32" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">124</text><text x="1008" y="153" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif" transform="rotate(90.00,1008,153)">Solved Num</text><path  d="M 53 351
+L 965 351" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 351
+L 965 351" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 52 351
+L 52 26" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 52 -9223372036854775457
+L 47 -9223372036854775457" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:none"/><text x="16" y="-9223372036854775451" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">0.00</text><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 -9223372036854775457
+L 965 -9223372036854775457" style="stroke-width:0;stroke:none;fill:none"/><path  d="M 53 188
+L 965 188" style="stroke-width:1;stroke:rgba(0,116,217,1.0);fill:none"/><path  d="M 965 188
+L 975 177
+L 1000 177
+L 1000 199
+L 975 199
+L 965 188
+Z" style="stroke-width:1;stroke:rgba(0,217,101,1.0);fill:rgba(255,255,255,1.0)"/><text x="980" y="194" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:12.8px;font-family:'Roboto Medium',sans-serif">62</text><text x="437" y="33" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:23.0px;font-family:'Roboto Medium',sans-serif">Solved History</text><path  d="M 53 26
+L 110 26
+L 110 46
+L 53 46
+L 53 26" style="stroke-width:1;stroke:rgba(51,51,51,1.0);fill:rgba(255,255,255,1.0)"/><text x="58" y="41" style="stroke-width:0;stroke:none;fill:rgba(51,51,51,1.0);font-size:10.2px;font-family:'Roboto Medium',sans-serif">aaa</text><path  d="M 80 36
+L 100 36" style="stroke-width:1;stroke:rgba(0,116,217,1.0);fill:none"/></svg>

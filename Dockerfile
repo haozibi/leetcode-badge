@@ -1,20 +1,29 @@
-ARG GO_VERSION=1.12.9
+FROM haozibi/upx AS build-upx
 
-FROM golang:${GO_VERSION}-alpine3.9 AS build-env
+FROM golang:1.13.3-alpine3.10 AS build-env
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 RUN apk --no-cache add build-base git
 
-WORKDIR ${GOPATH}/src/github.com/haozibi/leetcode-badge
+# build
+ARG BIN_NAME=leetcode-badge
+WORKDIR /${BIN_NAME}
+ADD go.mod .
+ADD go.sum .
+RUN export GOPROXY=https://goproxy.cn go mod download
+ADD . .
+RUN make build-linux
 
-COPY . ${GOPATH}/src/github.com/haozibi/leetcode-badge
+# upx
+WORKDIR /data
+COPY --from=build-upx /bin/upx /bin/upx
+RUN cp /${BIN_NAME}/${BIN_NAME} /data/main
+RUN upx -k --best --ultra-brute /data/main
 
-RUN ls -alh && make build-linux
+FROM alpine:3.10
 
-FROM alpine:3.9
-
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
 RUN apk update && apk add tzdata \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \ 
@@ -22,10 +31,8 @@ RUN apk update && apk add tzdata \
 
 RUN apk add --update ca-certificates && rm -rf /var/cache/apk/*
 
-COPY --from=build-env go/src/github.com/haozibi/leetcode-badge/leetcode-badge /main
-
-ENV LCHTTPAddr=":5050"
+COPY --from=build-env /data/main /home/main
 
 EXPOSE 5050
 
-ENTRYPOINT ["/main","run"]
+ENTRYPOINT ["/home/main","run"]
