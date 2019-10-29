@@ -214,7 +214,7 @@ func (a *APP) getBadge(r *http.Request, typeName badgeType, info *leetcode.UserP
 		return body, nil
 	}
 
-	badgeBody, err := shield.Badge(r, left, right, DefaultColor)
+	badgeBody, err := shield.Badge(r.URL.Query(), left, right, DefaultColor)
 	if err != nil {
 		return nil, err
 	}

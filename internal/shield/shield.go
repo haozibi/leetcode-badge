@@ -3,6 +3,7 @@ package shield
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/haozibi/leetcode-badge/internal/request"
 
@@ -11,9 +12,7 @@ import (
 
 // Badge get badge
 // https://img.shields.io/badge/leetcode-haozibi-green.svg?color=red
-func Badge(r *http.Request, left, right, color string) ([]byte, error) {
-
-	query := r.URL.Query()
+func Badge(query url.Values, left, right, color string) ([]byte, error) {
 
 	uri := fmt.Sprintf("https://img.shields.io/badge/%s-%s-%s", left, right, color)
 
