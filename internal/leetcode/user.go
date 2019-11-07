@@ -99,10 +99,10 @@ func getUserProfile(userName string) (*UserProfile, error) {
 
 	body, resp, err := request.SendRequest(req)
 	if err != nil {
-		if resp.StatusCode == http.StatusNotFound {
-			return nil, nil
-		}
 		return nil, err
+	}
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, nil
 	}
 
 	dom, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
