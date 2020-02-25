@@ -6,7 +6,7 @@ GOARCH?=amd64
 
 VERSION?=$(shell git describe --tags --always)
 COMMIT_HASH?=$(shell git rev-parse --short HEAD 2>/dev/null)
-NOW?=$(shell date -u '+%Y/%m/%d/%I:%M:%S%Z')
+NOW?=$(shell date -u '+%Y-%m-%d %I:%M:%S %Z')
 PROJECT?=github.com/haozibi/${APP}
 
 LDFLAGS += -X "${PROJECT}/app.BuildTime=${NOW}"

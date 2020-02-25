@@ -11,18 +11,15 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/mux v1.7.3
-	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/haozibi/gendry v0.0.0-20181228133255-0e378288a754
 	github.com/haozibi/zlog v0.1.3-0.20190617105614-f8dd12b8657e
 	github.com/jteeuwen/go-bindata v3.0.8-0.20180305030458-6025e8de665b+incompatible // indirect
-	github.com/lib/pq v1.2.0 // indirect
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/client_golang v1.1.0
 	github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4 // indirect
-	github.com/robfig/cron v1.2.1-0.20190616124356-61d93e07d1be // indirect
 	github.com/robfig/cron/v3 v3.0.1-0.20190716002318-e843a09e5b2d
 	github.com/rs/zerolog v1.14.3 // indirect
 	github.com/spf13/cobra v0.0.5

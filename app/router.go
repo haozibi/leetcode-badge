@@ -68,7 +68,7 @@ func setRouter(r *mux.Router, a *APP, w io.Writer) {
 			handlers.CombinedLoggingHandler(w, http.HandlerFunc(a.Profile)),
 		)
 	}
-	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/html/")))
+	r.PathPrefix("/").Handler(http.HandlerFunc(a.IndexPage))
 }
 
 // Monitor Monitor
