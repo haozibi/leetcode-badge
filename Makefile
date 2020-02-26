@@ -9,6 +9,9 @@ COMMIT_HASH?=$(shell git rev-parse --short HEAD 2>/dev/null)
 NOW?=$(shell date -u '+%Y-%m-%d %I:%M:%S %Z')
 PROJECT?=github.com/haozibi/${APP}
 
+CONTAINER_IMAGE?=registry.cn-beijing.aliyuncs.com/github-public/${APP}
+K8S_NAMESPACE=default
+
 LDFLAGS += -X "${PROJECT}/app.BuildTime=${NOW}"
 LDFLAGS += -X "${PROJECT}/app.BuildVersion=${VERSION}"
 LDFLAGS += -X "${PROJECT}/app.BuildAppName=${APP}"
@@ -17,7 +20,7 @@ BUILD_TAGS = ""
 BUILD_FLAGS = "-v"
 # PROTO_LOCATION = "internal/protocol_pb"
 
-.PHONY: build build-local build-linux clean govet bindata docker-image
+.PHONY: build build-local build-linux clean govet bindata docker docker-push
 
 default: build
 
@@ -34,6 +37,15 @@ bindata: clean
 		-debug=false \
 		-o=static/static.go \
 		static/...
+
+
+.PHONY: docker
+docker:
+	docker build -t ${CONTAINER_IMAGE}:${VERSION} -f ./Dockerfile .
+
+.PHONY: docker-push
+docker-push: docker
+	docker push ${CONTAINER_IMAGE}:${VERSION}
 
 govet: 
 	@ go vet . && go fmt ./... && \
