@@ -1,6 +1,6 @@
-![](static/html/logo.png)
+![](logo.png)
 
-[![](https://img.shields.io/badge/Github-leetcode--badge-blueviolet)](https://github.com/haozibi/leetcode-badge) [![Go Report Card](https://goreportcard.com/badge/github.com/haozibi/leetcode-badge)](https://goreportcard.com/report/github.com/haozibi/leetcode-badge) [![](https://lc.coding.gs/v1cn/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/ranking/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/solved/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/solved-rate/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/accepted/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/accepted-rate/haozibi.svg)](https://leetcode-cn.com/haozibi)
+[![CircleCI](https://circleci.com/gh/haozibi/leetcode-badge/tree/master.svg?style=svg)](https://circleci.com/gh/haozibi/leetcode-badge/tree/master) [![](https://img.shields.io/badge/Github-leetcode--badge-blueviolet)](https://github.com/haozibi/leetcode-badge) [![Go Report Card](https://goreportcard.com/badge/github.com/haozibi/leetcode-badge)](https://goreportcard.com/report/github.com/haozibi/leetcode-badge) [![](https://lc.coding.gs/v1cn/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/ranking/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/solved/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/solved-rate/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/accepted/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://lc.coding.gs/v1cn/accepted-rate/haozibi.svg)](https://leetcode-cn.com/haozibi)
 
 # leetcode 徽标 
 
