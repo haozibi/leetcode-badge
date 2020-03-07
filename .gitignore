@@ -17,3 +17,4 @@ nginx/
 data/
 docker-compose.yml
 static/*.go
+.idea/

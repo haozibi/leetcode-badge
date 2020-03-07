@@ -1,6 +1,7 @@
 package chart
 
 import (
+	"math/rand"
 	"os"
 	"testing"
 	"time"
@@ -73,6 +74,28 @@ func TestSameValue(t *testing.T) {
 		Date: time.Now().AddDate(0, 0, 1),
 		Num:  62,
 	})
+
+	ShowSolvedHistory(f, [][]SolvedHistory{r1}, "aaa")
+}
+
+func TestSingleValue(t *testing.T) {
+	rand.Seed(time.Now().Unix())
+
+	f, _ := os.Create("output.svg")
+	defer f.Close()
+
+	r1 := make([]SolvedHistory, 0)
+	r1 = append(r1, SolvedHistory{
+		Date: time.Now(),
+		Num:  62,
+	})
+	count := 30
+	for i := 1; i < count; i++ {
+		r1 = append(r1, SolvedHistory{
+			Date: time.Now().AddDate(0, 0, i),
+			Num:  rand.Intn(50) + 62,
+		})
+	}
 
 	ShowSolvedHistory(f, [][]SolvedHistory{r1}, "aaa")
 }

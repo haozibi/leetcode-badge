@@ -104,10 +104,21 @@ func show(w io.Writer, title, xName, yName string, isYDescending bool, series []
 func getXTicks(ti []time.Time) []chart.Tick {
 	t := make([]chart.Tick, len(ti))
 
-	for i := 0; i < len(ti); i++ {
+	// 当数据很多时，x 轴间隔输出，保证起始和末尾有输出
+	interval := 1
+	l := len(ti)
+	if l > 7 {
+		interval = l / 5
+
+	}
+
+	for i := 0; i < l; i++ {
 		t[i] = chart.Tick{
 			Value: float64(ti[i].Unix()),
-			Label: ti[i].Format("2006-01-02"),
+			// Label: ti[i].Format("2006-01-02"),
+		}
+		if i%interval == 0 || i+1 == len(ti) {
+			t[i].Label = ti[i].Format("2006-01-02")
 		}
 	}
 
