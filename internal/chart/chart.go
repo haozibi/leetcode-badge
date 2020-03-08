@@ -109,15 +109,13 @@ func getXTicks(ti []time.Time) []chart.Tick {
 	l := len(ti)
 	if l > 7 {
 		interval = l / 5
-
 	}
 
 	for i := 0; i < l; i++ {
 		t[i] = chart.Tick{
 			Value: float64(ti[i].Unix()),
-			// Label: ti[i].Format("2006-01-02"),
 		}
-		if i%interval == 0 || i+1 == len(ti) {
+		if i%interval == 0 || i+1 == l {
 			t[i].Label = ti[i].Format("2006-01-02")
 		}
 	}
