@@ -1,6 +1,6 @@
 module github.com/haozibi/leetcode-badge
 
-go 1.13
+go 1.15
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
@@ -13,7 +13,6 @@ require (
 	github.com/gorilla/mux v1.7.3
 	github.com/haozibi/gendry v0.0.0-20181228133255-0e378288a754
 	github.com/haozibi/zlog v0.1.3-0.20190617105614-f8dd12b8657e
-	github.com/jteeuwen/go-bindata v3.0.8-0.20180305030458-6025e8de665b+incompatible // indirect
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
