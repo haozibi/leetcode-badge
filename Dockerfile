@@ -21,7 +21,7 @@ COPY --from=build-upx /bin/upx /bin/upx
 RUN cp /${BIN_NAME}/${BIN_NAME} /data/main
 RUN upx -k --best --ultra-brute /data/main
 
-FROM alpine3.12
+FROM alpine:3.12
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
