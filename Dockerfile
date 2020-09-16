@@ -1,6 +1,6 @@
 FROM haozibi/upx AS build-upx
 
-FROM golang:1.13.8-alpine3.10 AS build-env
+FROM golang:1.15.2-alpine3.12 AS build-env
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
@@ -21,7 +21,7 @@ COPY --from=build-upx /bin/upx /bin/upx
 RUN cp /${BIN_NAME}/${BIN_NAME} /data/main
 RUN upx -k --best --ultra-brute /data/main
 
-FROM alpine:3.10
+FROM alpine3.12
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
