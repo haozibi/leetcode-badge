@@ -2,6 +2,8 @@ module github.com/haozibi/leetcode-badge
 
 go 1.15
 
+replace github.com/jteeuwen/go-bindata => github.com/jteeuwen/go-bindata v3.0.8-0.20180305030458-6025e8de665b+incompatible
+
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/blend/go-sdk v2.0.0+incompatible // indirect
