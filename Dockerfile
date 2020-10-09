@@ -18,7 +18,7 @@ RUN make build-linux
 # upx
 WORKDIR /data
 COPY --from=build-upx /bin/upx /bin/upx
-RUN cp /${BIN_NAME}/${BIN_NAME} /data/main
+RUN cp /${BIN_NAME}/bin/${BIN_NAME} /data/main
 RUN upx -k --best --ultra-brute /data/main
 
 FROM alpine:3.12

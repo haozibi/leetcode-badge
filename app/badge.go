@@ -151,7 +151,7 @@ func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
 		RealName:    info.RealName,
 		UserAvatar:  info.UserAvatar,
 		UpdatedTime: 0,
-		CreatedTime: time.Now().Unix(),
+		CreatedTime: time.Now().UnixNano() / 1e6,
 	}
 
 	_, err := a.store.SaveUserInfo(user)
@@ -168,7 +168,7 @@ func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
 		Ranking:     info.SiteRanking,
 		SolvedNum:   info.AcTotal,
 		ZeroTime:    tools.ZeroTime(time.Now()).Unix(),
-		CreatedTime: time.Now().Unix(),
+		CreatedTime: time.Now().UnixNano() / 1e6,
 	}
 
 	err = a.store.SaveRecord(record)

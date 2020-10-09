@@ -25,10 +25,10 @@ type HistoryRecord struct {
 }
 
 type Storage interface {
-	GetUserInfo(userslug string, iscn bool) ([]UserInfo, error)
+	GetUserInfo(userSlug string, isCN bool) ([]UserInfo, error)
 	SaveUserInfo(info UserInfo) (int64, error)
 	ListUserInfo(start, limit int) ([]UserInfo, error)
 
-	ListRecord(userslug string, iscn bool, start, end time.Time) ([]HistoryRecord, error)
+	ListRecord(userSlug string, isCN bool, start, end time.Time) ([]HistoryRecord, error)
 	SaveRecord(info HistoryRecord) error
 }

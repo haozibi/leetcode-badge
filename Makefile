@@ -3,6 +3,7 @@ APP?=leetcode-badge
 # SHELL := /bin/bash # Use bash syntax
 GOOS?=linux
 GOARCH?=amd64
+BLDDIR=bin
 
 VERSION?=$(shell git describe --tags --always)
 COMMIT_HASH?=$(shell git rev-parse --short HEAD 2>/dev/null)
@@ -25,11 +26,11 @@ BUILD_FLAGS = "-v"
 default: build
 
 build: clean govet
-	CGO_ENABLED=1 GOOS= GOARCH= go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
+	CGO_ENABLED=1 GOOS= GOARCH= go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${BLDDIR}/${APP}
 
 
 build-linux: clean govet
-	CGO_ENABLED=1 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
+	CGO_ENABLED=1 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${BLDDIR}/${APP}
 
 bindata: clean
 	@ export GOPROXY=https://goproxy.cn && go get github.com/jteeuwen/go-bindata/...
@@ -52,5 +53,5 @@ govet:
 	(if [[ "$(gofmt -d $(find . -type f -name '*.go' -not -path "./vendor/*" -not -path "./tests/*" -not -path "./assets/*"))" == "" ]]; then echo "Good format"; else echo "Bad format"; exit 33; fi);
 
 clean: 
-	@ rm -fr ${APP} main static/*.go
+	@ rm -fr ${BLDDIR} ${APP} main static/*.go
 
