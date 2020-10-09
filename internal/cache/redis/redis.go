@@ -7,13 +7,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/go-redis/redis"
+	"github.com/pkg/errors"
+
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
 	"github.com/haozibi/leetcode-badge/internal/storage"
-
-	"github.com/go-redis/redis"
-	"github.com/haozibi/zlog"
-	"github.com/pkg/errors"
 )
 
 type redisCache struct {
@@ -35,12 +34,10 @@ func New(addr string, password string) (cache.Cache, error) {
 		MaxRetries: 2,
 	})
 
-	ping, err := client.Ping().Result()
+	_, err := client.Ping().Result()
 	if err != nil {
 		return nil, errors.Wrap(err, "link redis")
 	}
-
-	zlog.ZInfo().Str("Ping", ping).Msg("[redis]")
 
 	return &redisCache{
 		client:         client,

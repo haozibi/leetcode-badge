@@ -11,7 +11,7 @@ import (
 
 var rootCMD = &cobra.Command{
 	Use:   app.BuildAppName,
-	Short: "leetcode badge CLI",
+	Short: "LeetCode Badge CLI",
 }
 
 func init() {

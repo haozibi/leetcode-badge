@@ -3,105 +3,51 @@ package app
 import (
 	"bytes"
 	"fmt"
-	"net/http"
-	"strconv"
-	"strings"
 	"time"
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
 	"github.com/haozibi/leetcode-badge/internal/storage"
-	"github.com/haozibi/leetcode-badge/static"
+	"github.com/haozibi/leetcode-badge/internal/tools"
 
-	"github.com/gorilla/mux"
-	"github.com/haozibi/zlog"
 	"github.com/pkg/errors"
 )
 
 // HistoryChart history chart
-func (a *APP) HistoryChart(w http.ResponseWriter, r *http.Request) {
-
-	uri := strings.TrimPrefix(r.URL.Path, "/")
-	uriList := strings.Split(uri, "/")
-
-	if len(uriList) != 4 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	vars := mux.Vars(r)
-	name := vars["name"]
-
-	if strings.Count(name, "/") >= 1 {
-		w.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	day := 7
-	dayStr := r.URL.Query().Get("day")
-	if dayStr != "" {
-		d, err := strconv.Atoi(dayStr)
-		if err != nil {
-			fmt.Fprintf(w, "day params must number")
-			return
-		}
-		if d > 30 {
-			d = 30
-		}
-		if d > day {
-			day = d
-		}
-	}
-
-	end := time.Now()
-	start := time.Now().AddDate(0, 0, -1*(day-1))
+func (a *APP) historyChart(badgeType BadgeType, name string, isCN bool, start, end time.Time) ([]byte, error) {
 
 	var showFn ChartShow
 
-	switch strings.ToLower(uriList[2]) {
-	case "ranking":
+	switch badgeType {
+	case BadgeTypeChartRanking:
 		showFn = a.showRanking
-	case "solved":
+	case BadgeTypeChartSolved:
 		showFn = a.showSolved
 	default:
-		w.WriteHeader(http.StatusNotFound)
-		return
+		return nil, errors.Errorf("badge not match")
 	}
 
-	userInfo, err := a.getUserProfile(name, a.iscn(r))
+	userInfo, err := a.getUserProfile(name, isCN)
 	if err != nil {
-		zlog.ZError().Msgf("[http] %+v", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 
 	if userInfo == nil || userInfo.UserSlug == "" {
 		// 用户没找到
-		zlog.ZDebug().Msgf("%s %v not found", name, a.iscn(r))
-		a.write(w, static.MustAsset("static/svg/notfound.svg"))
-		return
+		return tools.SVCNotFound, nil
 	}
 
-	list, err := a.getHistoryList(name, a.iscn(r), start, end)
+	list, err := a.getHistoryList(name, isCN, start, end)
 	if err != nil {
-		zlog.ZError().Msgf("[http] %+v", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 
 	if len(list) < 2 {
 		// 数据不足，过几天再来查看
-		a.write(w, static.MustAsset("static/svg/lackdata.svg"))
-		return
+		return tools.SVGLackData, nil
 	}
 
 	body, err := showFn(list, userInfo.RealName)
-	if err != nil {
-		zlog.ZError().Msgf("[http] %+v", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	a.write(w, body)
+	return body, err
 }
 
 // ChartShow chart function

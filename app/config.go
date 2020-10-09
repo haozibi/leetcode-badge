@@ -1,6 +1,12 @@
 package app
 
 type Config struct {
+	Address    string
+	SqlitePath string
+	EnableCron bool
+}
+
+type Config2 struct {
 	Debug bool
 
 	Address     string

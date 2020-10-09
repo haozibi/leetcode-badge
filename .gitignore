@@ -18,3 +18,4 @@ data/
 docker-compose.yml
 static/*.go
 .idea/
+*.db

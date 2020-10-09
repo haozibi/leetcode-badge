@@ -13,7 +13,6 @@ import (
 	"github.com/haozibi/gendry/builder"
 	"github.com/haozibi/gendry/manager"
 	"github.com/haozibi/gendry/scanner"
-	"github.com/haozibi/zlog"
 	"github.com/pkg/errors"
 )
 
@@ -44,8 +43,6 @@ func New(dbName, user, passwd, host string, port int) (storage.Storage, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "mysql link")
 	}
-
-	zlog.ZInfo().Msg("[MySQL] PONG")
 
 	return &dbHelp{
 		db:              d,

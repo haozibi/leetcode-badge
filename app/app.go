@@ -11,42 +11,38 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/haozibi/leetcode-badge/internal/cache"
-	"github.com/haozibi/leetcode-badge/internal/cache/memory"
-	"github.com/haozibi/leetcode-badge/internal/cache/redis"
-	"github.com/haozibi/leetcode-badge/internal/storage"
-	"github.com/haozibi/leetcode-badge/internal/storage/mysql"
-	"github.com/haozibi/leetcode-badge/static"
-
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/haozibi/zlog"
-	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 	"golang.org/x/sync/singleflight"
+
+	"github.com/haozibi/leetcode-badge/internal/cache"
+	"github.com/haozibi/leetcode-badge/internal/cache/memory"
+	"github.com/haozibi/leetcode-badge/internal/storage"
+	"github.com/haozibi/leetcode-badge/internal/storage/sqlite"
+	"github.com/haozibi/leetcode-badge/internal/tools"
 )
 
 type APP struct {
-	debug bool
+	config Config
 
-	config *Config
-	cache  cache.Cache
-	store  storage.Storage
-	group  *singleflight.Group
+	cache cache.Cache
+	store storage.Storage
 
+	group     *singleflight.Group
 	mu        sync.Mutex
 	userMap   map[string]time.Time
 	recordMap map[string]time.Time
 
-	wg               WaitGroupWrapper
+	wg               tools.WaitGroupWrapper
 	shutdown         chan struct{}
 	shutdownComplete chan struct{}
 }
 
-func New(c Config) *APP {
+func New(cfg Config) *APP {
 
 	a := &APP{
-		debug:            c.Debug,
-		config:           &c,
+		config:           cfg,
 		group:            new(singleflight.Group),
 		userMap:          make(map[string]time.Time),
 		recordMap:        make(map[string]time.Time),
@@ -59,13 +55,15 @@ func New(c Config) *APP {
 
 func (a *APP) Run() error {
 
-	if err := a.initConfig(); err != nil {
-		return err
-	}
+	var (
+		path   = a.config.SqlitePath
+		enable = a.config.EnableCron
+		err    error
+	)
 
-	err := static.RestoreAssets("./", "static")
+	a.cache = memory.New()
+	a.store, err = sqlite.New(path)
 	if err != nil {
-		zlog.ZError().AnErr("Static", err).Msg("[Init]")
 		return err
 	}
 
@@ -80,16 +78,14 @@ func (a *APP) Run() error {
 		})
 	}
 
-	go a.quit(3 * time.Second)
-	a.Cron(a.config.CronSpec)
-
+	go a.quit()
 	a.wg.Wrap(func() {
 		exitFunc(a.runHTTP())
 	})
 
-	a.wg.Wrap(func() {
-		exitFunc(a.runMonitor())
-	})
+	if enable {
+		a.Cron(CronSpec)
+	}
 
 	select {
 	case <-a.shutdownComplete:
@@ -100,11 +96,16 @@ func (a *APP) Run() error {
 }
 
 func (a *APP) runHTTP() error {
+
+	var (
+		address = a.config.Address
+	)
+
 	r := mux.NewRouter()
-	setRouter(r, a, ioutil.Discard)
+	Router(r, a, ioutil.Discard)
 
 	srv := &http.Server{
-		Addr:         a.config.Address,
+		Addr:         address,
 		WriteTimeout: 120 * time.Second,
 		ReadTimeout:  120 * time.Second,
 		Handler:      handlers.RecoveryHandler()(r),
@@ -117,16 +118,16 @@ func (a *APP) runHTTP() error {
 			defer cancel()
 			err := srv.Shutdown(ctx)
 			if err != nil {
-				zlog.ZError().Msgf("[http] Shutdown %+v", err)
+				log.Err(err).Msg("shutdown error")
 			}
 			select {
 			case <-ctx.Done():
-				zlog.ZDebug().Msg("[http] timeout of 3 seconds.")
+				log.Debug().Msg("[http] timeout of 3 seconds.")
 			}
 		}
 	}()
 
-	zlog.ZInfo().Str("Addr", a.config.Address).Msg("[http]")
+	log.Info().Str("Address", address).Msg("http listen")
 	if err := srv.ListenAndServe(); err != nil &&
 		err != http.ErrServerClosed {
 		return err
@@ -135,73 +136,18 @@ func (a *APP) runHTTP() error {
 	return nil
 }
 
-func (a *APP) initConfig() error {
-	var err error
-
-	switch a.config.CacheType {
-	case "redis":
-		a.cache, err = redis.New(
-			a.config.RedisConfig.Address,
-			a.config.RedisConfig.Password,
-		)
-		if err != nil {
-			return err
-		}
-	case "memory":
-		a.cache = memory.New()
-	default:
-		return errors.New("not support cache type: " + a.config.CacheType)
-	}
-
-	zlog.ZInfo().Msgf("[cache] type: %s", a.config.CacheType)
-
-	switch a.config.StorageType {
-	case "mysql":
-		a.store, err = mysql.New(
-			a.config.MySQLConfig.DBName,
-			a.config.MySQLConfig.User,
-			a.config.MySQLConfig.Password,
-			a.config.MySQLConfig.Host,
-			a.config.MySQLConfig.Port,
-		)
-		if err != nil {
-			return err
-		}
-	default:
-		return errors.New("not support storage type: " + a.config.StorageType)
-	}
-
-	zlog.ZInfo().Msgf("[storage] type: %s", a.config.StorageType)
-
-	return nil
-}
-
-func (a *APP) quit(out time.Duration) error {
+func (a *APP) quit() {
 
 	quit := make(chan os.Signal)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	zlog.ZInfo().Msg("[Server] Shutdown Server...")
+	log.Info().Msg("[Server] Shutdown Server...")
 	close(a.shutdown)
 
 	a.wg.Wait()
 	close(a.shutdownComplete)
-	return nil
-}
-
-// WaitGroupWrapper wrap sync.WaitGroup
-type WaitGroupWrapper struct {
-	sync.WaitGroup
-}
-
-// Wrap wrap
-func (w *WaitGroupWrapper) Wrap(cb func()) {
-	w.Add(1)
-	go func() {
-		cb()
-		w.Done()
-	}()
+	return
 }
 
 func recordKey(name string, isCN bool) string {

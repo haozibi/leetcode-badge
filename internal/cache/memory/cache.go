@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
+	gocache "github.com/patrickmn/go-cache"
+	"github.com/pkg/errors"
+
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
 	"github.com/haozibi/leetcode-badge/internal/storage"
-
-	gocache "github.com/patrickmn/go-cache"
-	"github.com/pkg/errors"
 )
 
 type memoryCache struct {

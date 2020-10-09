@@ -24,12 +24,12 @@ BUILD_FLAGS = "-v"
 
 default: build
 
-build: clean bindata govet
-	CGO_ENABLED=0 GOOS= GOARCH= go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP} 
+build: clean govet
+	CGO_ENABLED=1 GOOS= GOARCH= go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
 
 
-build-linux: clean bindata govet
-	CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
+build-linux: clean govet
+	CGO_ENABLED=1 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${APP}
 
 bindata: clean
 	@ export GOPROXY=https://goproxy.cn && go get github.com/jteeuwen/go-bindata/...

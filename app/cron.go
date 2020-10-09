@@ -3,32 +3,36 @@ package app
 import (
 	"time"
 
+	"github.com/rs/zerolog/log"
+
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/tools"
 
-	"github.com/haozibi/zlog"
 	"github.com/pkg/errors"
 	"github.com/robfig/cron/v3"
+)
+
+const (
+	CronSpec = "30 8 * * *"
 )
 
 // Cron cron
 // 30 8 * * * 每天凌晨 8 点 30 分
 // "@every 2s"
-func (a *APP) Cron(spec string) error {
+func (a *APP) Cron(spec string) {
 	c := cron.New(cron.WithChain(
 		cron.Recover(cron.DefaultLogger),
 	))
 	_, err := c.AddFunc(spec, func() {
 		num := a.cron()
-		zlog.ZInfo().Int("UpdateNum", num).Time("Time", time.Now()).Msg("[cron]")
+		log.Info().Int("UpdateNum", num).Time("Time", time.Now()).Msg("[cron]")
 	})
 	if err != nil {
-		return errors.Wrap(err, "setup cron")
+		panic(err)
 	}
 	c.Start()
-	zlog.ZInfo().Msgf("[cron] start cron success: %s", spec)
-	return nil
+	log.Info().Str("Spec", spec).Msg("[cron] start success")
 }
 
 func (a *APP) cron() int {
@@ -43,14 +47,14 @@ func (a *APP) cron() int {
 		start := i * limit
 		userList, err := a.store.ListUserInfo(start, limit)
 		if err != nil {
-			zlog.ZError().Msgf("%+v", err)
+			log.Err(err).Msg("[cron] list user info error")
 			continue
 		}
 		if len(userList) == 0 {
 			return total
 		}
 
-		zlog.ZInfo().Msgf("[cron] find %d user", len(userList))
+		log.Debug().Int("UserNum", len(userList)).Msg("[cron] find user")
 
 		for i := 0; i < len(userList); i++ {
 
@@ -64,7 +68,7 @@ func (a *APP) cron() int {
 
 			err := a.updateHistory(name, isCN)
 			if err != nil {
-				zlog.ZError().Msgf("[cron] update history %+v", err)
+				log.Err(err).Msg("[cron] update history")
 				continue
 			}
 			a.recordMap[recordKey(name, isCN)] = tools.ZeroTime(time.Now())
