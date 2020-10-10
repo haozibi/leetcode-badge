@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
@@ -105,8 +106,7 @@ func (a *APP) runHTTP() error {
 	)
 
 	r := mux.NewRouter()
-	Router(r, a, os.Stdout)
-	// Router(r, a, ioutil.Discard)
+	Router(r, a, ioutil.Discard)
 
 	srv := &http.Server{
 		Addr:         address,

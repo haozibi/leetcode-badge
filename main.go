@@ -26,7 +26,7 @@ func New(w io.Writer) {
 }
 
 func init() {
-	New(os.Stderr)
+	New(os.Stdout)
 }
 
 func main() {
