@@ -99,7 +99,7 @@ func (l *lite) ListRecord(userSlug string, isCN bool, start, end time.Time) ([]s
 	sql := fmt.Sprintf("SELECT * FROM %s WHERE user_slug=? AND is_cn=? AND zero_time<=? AND zero_time>=? ORDER BY id", l.tableRecord)
 
 	var list []storage.HistoryRecord
-	err := l.db.Select(&list, sql, userSlug, isCN, end, start)
+	err := l.db.Select(&list, sql, userSlug, isCN, end.Unix(), start.Unix())
 
 	return list, errors.Wrapf(err, "ListRecord error, user_slug: %s, is_cn: %v", userSlug, isCN)
 }

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"math/rand"
 	"strconv"
 	"time"
 
@@ -100,6 +101,8 @@ func (a *APP) cron() {
 
 func (a *APP) updateHistory(name string, isCN bool) error {
 
+	// TODO: 更优化的方法，避免 429 错误
+	time.Sleep(100*time.Millisecond + time.Duration(rand.Intn(100))*time.Millisecond)
 	info, err := leetcode.GetUserProfile(name, isCN)
 	if err != nil {
 		return err

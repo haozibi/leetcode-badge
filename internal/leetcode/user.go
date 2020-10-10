@@ -46,7 +46,7 @@ func getCNUserProfile(userName string) (*UserProfile, error) {
 	}
 
 	req.Header.Add("origin", "https://leetcode-cn.com")
-	req.Header.Add("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36")
+	req.Header.Add("user-agent", GetUserAgent())
 	req.Header.Add("content-type", "application/json")
 	req.Header.Add("referer", "https://leetcode-cn.com")
 
@@ -93,7 +93,7 @@ func getUserProfile(userName string) (*UserProfile, error) {
 	req, _ := http.NewRequest("GET", uri, nil)
 
 	req.Header.Add("origin", "https://leetcode.com")
-	req.Header.Add("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36")
+	req.Header.Add("user-agent", GetUserAgent())
 	req.Header.Add("content-type", "application/json")
 	req.Header.Add("referer", "https://leetcode.com")
 

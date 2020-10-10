@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
@@ -40,6 +41,8 @@ type APP struct {
 }
 
 func New(cfg Config) *APP {
+
+	spew.Dump(cfg)
 
 	a := &APP{
 		config:           cfg,
@@ -89,6 +92,7 @@ func (a *APP) Run() error {
 
 	if enable {
 		a.Cron(CronSpec)
+		log.Info().Msg("enable cron")
 	}
 
 	select {
