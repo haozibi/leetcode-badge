@@ -3,8 +3,9 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/haozibi/leetcode-badge/app"
 	"github.com/spf13/cobra"
+
+	"github.com/haozibi/leetcode-badge/app"
 )
 
 // NewVersionCommand new version command

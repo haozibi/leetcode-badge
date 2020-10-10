@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/haozibi/leetcode-badge/internal/request"
-
 	"github.com/pkg/errors"
+
+	"github.com/haozibi/leetcode-badge/internal/request"
 )
 
 // Badge get badge

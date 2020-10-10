@@ -4,14 +4,13 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/pkg/errors"
+	"github.com/robfig/cron/v3"
 	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/tools"
-
-	"github.com/pkg/errors"
-	"github.com/robfig/cron/v3"
 )
 
 const (
@@ -20,7 +19,6 @@ const (
 
 // Cron cron
 // 30 8 * * * 每天凌晨 8 点 30 分
-// "@every 2s"
 func (a *APP) Cron(spec string) {
 	c := cron.New(cron.WithChain(
 		cron.Recover(cron.DefaultLogger),

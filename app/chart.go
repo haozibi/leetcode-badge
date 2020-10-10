@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/haozibi/leetcode-badge/internal/chart"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/tools"
-
-	"github.com/pkg/errors"
 )
 
 // HistoryChart history chart

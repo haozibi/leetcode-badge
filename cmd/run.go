@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/haozibi/leetcode-badge/app"
-
 	"github.com/spf13/cobra"
+
+	"github.com/haozibi/leetcode-badge/app"
 )
 
 // NewRunCommand Run Web Command

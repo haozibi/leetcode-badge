@@ -10,10 +10,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/haozibi/leetcode-badge/internal/request"
-
 	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
+
+	"github.com/haozibi/leetcode-badge/internal/request"
 )
 
 // GetUserProfile get user profile by request leetcode

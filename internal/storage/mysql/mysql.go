@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/haozibi/leetcode-badge/internal/storage"
-	"github.com/haozibi/leetcode-badge/internal/tools"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/haozibi/gendry/builder"
 	"github.com/haozibi/gendry/manager"
 	"github.com/haozibi/gendry/scanner"
 	"github.com/pkg/errors"
+
+	"github.com/haozibi/leetcode-badge/internal/storage"
+	"github.com/haozibi/leetcode-badge/internal/tools"
 )
 
 func init() {
