@@ -11,7 +11,7 @@ ARG BIN_NAME=leetcode-badge
 WORKDIR /${BIN_NAME}
 ADD go.mod .
 ADD go.sum .
-RUN export GOPROXY=https://goproxy.cn go mod download
+RUN go env -w GO111MODULE=on && go env -w GOPROXY="https://goproxy.cn,direct" && go mod download
 ADD . .
 RUN make build-linux
 
@@ -19,7 +19,7 @@ RUN make build-linux
 WORKDIR /data
 COPY --from=build-upx /bin/upx /bin/upx
 RUN cp /${BIN_NAME}/bin/${BIN_NAME} /data/main
-RUN upx -k --best --ultra-brute /data/main
+# RUN upx -k --best --ultra-brute /data/main
 
 FROM alpine:3.12
 
@@ -33,6 +33,6 @@ RUN apk add --update ca-certificates && rm -rf /var/cache/apk/*
 
 COPY --from=build-env /data/main /home/main
 
-EXPOSE 5050
+RUN ls -alh /home/main && /home/main help
 
 ENTRYPOINT ["/home/main","run"]
