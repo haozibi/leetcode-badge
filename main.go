@@ -25,8 +25,11 @@ func New(w io.Writer) {
 	}).With().Stack().CallerWithSkipFrameCount(2).Timestamp().Logger()
 }
 
+func init() {
+	New(os.Stderr)
+}
+
 func main() {
 
-	New(os.Stdout)
 	cmd.Execute()
 }

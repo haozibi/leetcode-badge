@@ -80,7 +80,7 @@ func (l *lite) SaveUserInfo(info storage.UserInfo) (int64, error) {
 	res, err := l.db.Exec(sql, info.UserSlug, info.RealName, info.UserAvatar, info.IsCN, info.UpdatedTime, info.CreatedTime)
 	if err != nil {
 		if strings.Contains(err.Error(), "UNIQUE constraint failed") {
-			return 0, nil
+			return 0, errors.WithStack(storage.ErrHasExist(info.UserSlug))
 		}
 		return 0, errors.Wrapf(err, "user: %+v", info)
 	}
@@ -111,7 +111,7 @@ func (l *lite) SaveRecord(info storage.HistoryRecord) error {
 	_, err := l.db.Exec(sql, info.UserSlug, info.IsCN, info.Ranking, info.SolvedNum, info.ZeroTime, info.CreatedTime)
 	if err != nil {
 		if strings.Contains(err.Error(), "UNIQUE constraint failed") {
-			return nil
+			return errors.WithStack(storage.ErrHasExist(info.UserSlug))
 		}
 		return errors.Wrapf(err, "save record error, record: %+v", info)
 	}

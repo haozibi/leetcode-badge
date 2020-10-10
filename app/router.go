@@ -13,6 +13,9 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 
 	// r.Use(Monitor)
 	r.HandleFunc("/version", a.Version)
+	r.HandleFunc("/cron", func(w http.ResponseWriter, r *http.Request) {
+		a.cron()
+	})
 
 	apiCNV1 := r.PathPrefix("/v1cn").Subrouter()
 	apiENV1 := r.PathPrefix("/v1").Subrouter()

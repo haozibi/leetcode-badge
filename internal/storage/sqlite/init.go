@@ -12,13 +12,13 @@ var (
   "user_avatar" TEXT NOT NULL,
   "is_cn" integer NOT NULL,
   "updated_time" integer NOT NULL,
-  "created_time" integer NOT NULL,
-  CONSTRAINT "user_slug" UNIQUE ("user_slug" COLLATE BINARY ASC)
+  "created_time" integer NOT NULL
 );
 
-CREATE INDEX "user_info_slug"
+CREATE UNIQUE INDEX "user_info_slug"
 ON "user_info" (
-  "user_slug" COLLATE BINARY ASC
+  "user_slug" COLLATE BINARY ASC,
+  "is_cn" COLLATE BINARY ASC
 );
 `
 
@@ -29,13 +29,14 @@ ON "user_info" (
   "ranking" integer NOT NULL,
   "solved_num" INTEGER NOT NULL,
   "zero_time" integer NOT NULL,
-  "created_time" integer NOT NULL,
-  CONSTRAINT "user_slug+zero_time" UNIQUE ("user_slug" COLLATE BINARY ASC, "zero_time" COLLATE BINARY ASC)
+  "created_time" integer NOT NULL
 );
 
-CREATE INDEX "record_slug"
+CREATE UNIQUE INDEX "record_slug"
 ON "history_record" (
-  "user_slug" COLLATE BINARY ASC
+  "user_slug" COLLATE BINARY ASC,
+  "is_cn" COLLATE BINARY ASC,
+  "zero_time" COLLATE BINARY ASC
 );
 `
 )

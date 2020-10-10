@@ -107,12 +107,11 @@ func (a *APP) getBadge(value url.Values, isCN bool, typeName BadgeType, info *le
 		left, right = "Accepted", fmt.Sprintf("%.2f％", (float64(info.AcSubmissions)/float64(info.TotalSubmissions))*100)
 		key = "AcceptedRate_" + left + "_" + right
 	case BadgeTypeUserNotFound:
-		// vars := mux.Vars(r)
-		// left, right = vars["name"], "User Not Found"
-		// key = "UserNotFound_" + left + "_" + right
+		left, right = "LeetCodeBadge", "User Not Found"
+		key = "UserNotFound_" + left + "_" + right
 	}
 
-	key += value.Encode()
+	key += "_" + strconv.Itoa(tools.BoolToInt(isCN)) + "_" + value.Encode()
 
 	body, err := a.cache.GetByteBody(key)
 	if err == nil && len(body) != 0 {
@@ -138,12 +137,12 @@ func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
 
 	key := recordKey(info.UserSlug, isCN)
 
-	a.mu.Lock()
-	defer a.mu.Unlock()
-
+	a.uMu.Lock()
 	if _, ok := a.userMap[key]; ok {
+		a.uMu.Unlock()
 		return nil
 	}
+	a.uMu.Unlock()
 
 	user := storage.UserInfo{
 		UserSlug:    info.UserSlug,
@@ -159,8 +158,11 @@ func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
 		return err
 	}
 
-	log.Info().Str("UserName", info.UserSlug).Msg("[http] save user")
+	log.Info().Str("UserName", info.UserSlug).Bool("IsCN", isCN).Msg("[http] save user")
+
+	a.uMu.Lock()
 	a.userMap[key] = time.Now()
+	a.uMu.Unlock()
 
 	record := storage.HistoryRecord{
 		UserSlug:    info.UserSlug,
@@ -175,8 +177,11 @@ func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
 	if err != nil && !storage.IsHasExistError(err) {
 		return err
 	}
-	log.Info().Str("UserName", info.UserSlug).Msg("[http] save record")
+	log.Info().Str("UserName", info.UserSlug).Bool("IsCN", isCN).Msg("[http] save record")
+
+	a.rMu.Lock()
 	a.recordMap[key] = time.Now()
+	a.rMu.Unlock()
 
 	return nil
 }

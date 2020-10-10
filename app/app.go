@@ -2,11 +2,9 @@ package app
 
 import (
 	"context"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"os/signal"
-	"strconv"
 	"sync"
 	"syscall"
 	"time"
@@ -30,7 +28,8 @@ type APP struct {
 	store storage.Storage
 
 	group     *singleflight.Group
-	mu        sync.Mutex
+	uMu       sync.Mutex
+	rMu       sync.Mutex
 	userMap   map[string]time.Time
 	recordMap map[string]time.Time
 
@@ -53,17 +52,21 @@ func New(cfg Config) *APP {
 	return a
 }
 
-func (a *APP) Run() error {
-
-	var (
-		path   = a.config.SqlitePath
-		enable = a.config.EnableCron
-		err    error
-	)
+func (a *APP) Setup() (err error) {
+	path := a.config.SqlitePath
 
 	a.cache = memory.New()
 	a.store, err = sqlite.New(path)
-	if err != nil {
+	return err
+}
+
+func (a *APP) Run() error {
+
+	var (
+		enable = a.config.EnableCron
+	)
+
+	if err := a.Setup(); err != nil {
 		return err
 	}
 
@@ -102,7 +105,8 @@ func (a *APP) runHTTP() error {
 	)
 
 	r := mux.NewRouter()
-	Router(r, a, ioutil.Discard)
+	Router(r, a, os.Stdout)
+	// Router(r, a, ioutil.Discard)
 
 	srv := &http.Server{
 		Addr:         address,
@@ -148,8 +152,4 @@ func (a *APP) quit() {
 	a.wg.Wait()
 	close(a.shutdownComplete)
 	return
-}
-
-func recordKey(name string, isCN bool) string {
-	return name + strconv.FormatBool(isCN)
 }

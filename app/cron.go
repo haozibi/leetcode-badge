@@ -1,6 +1,7 @@
 package app
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/rs/zerolog/log"
@@ -25,8 +26,8 @@ func (a *APP) Cron(spec string) {
 		cron.Recover(cron.DefaultLogger),
 	))
 	_, err := c.AddFunc(spec, func() {
-		num := a.cron()
-		log.Info().Int("UpdateNum", num).Time("Time", time.Now()).Msg("[cron]")
+		a.cron()
+
 	})
 	if err != nil {
 		panic(err)
@@ -35,23 +36,25 @@ func (a *APP) Cron(spec string) {
 	log.Info().Str("Spec", spec).Msg("[cron] start success")
 }
 
-func (a *APP) cron() int {
+func (a *APP) cron() {
 
 	var (
-		i     int
+		j     int
 		total int
 		limit = 100
 	)
 
+	t1 := time.Now()
+
 	for {
-		start := i * limit
+		start := j * limit
 		userList, err := a.store.ListUserInfo(start, limit)
 		if err != nil {
 			log.Err(err).Msg("[cron] list user info error")
 			continue
 		}
 		if len(userList) == 0 {
-			return total
+			break
 		}
 
 		log.Debug().Int("UserNum", len(userList)).Msg("[cron] find user")
@@ -61,21 +64,40 @@ func (a *APP) cron() int {
 			name := userList[i].UserSlug
 			isCN := tools.IntToBool(userList[i].IsCN)
 
+			a.rMu.Lock()
 			if v, ok := a.recordMap[recordKey(name, isCN)]; ok &&
 				tools.IsToday(v) {
+				a.rMu.Unlock()
 				continue
 			}
+			a.rMu.Unlock()
 
 			err := a.updateHistory(name, isCN)
 			if err != nil {
 				log.Err(err).Msg("[cron] update history")
 				continue
 			}
-			a.recordMap[recordKey(name, isCN)] = tools.ZeroTime(time.Now())
+
+			zero := tools.ZeroTime(time.Now())
+
+			a.rMu.Lock()
+			a.recordMap[recordKey(name, isCN)] = zero
+			a.rMu.Unlock()
+
 			total++
+			log.Debug().
+				Str("Name", name).
+				Str("Today", zero.Format("2006-01-02")).
+				Bool("IsCN", isCN).
+				Msg("[cron] update user success")
 		}
-		i++
+		j++
 	}
+
+	log.Info().
+		Int("UpdateNum", total).
+		Str("UseTime", time.Since(t1).String()).
+		Msg("[cron] cron success")
 }
 
 func (a *APP) updateHistory(name string, isCN bool) error {
@@ -95,7 +117,7 @@ func (a *APP) updateHistory(name string, isCN bool) error {
 		Ranking:     info.SiteRanking,
 		SolvedNum:   info.AcTotal,
 		ZeroTime:    tools.ZeroTime(time.Now()).Unix(),
-		CreatedTime: time.Now().Unix(),
+		CreatedTime: time.Now().UnixNano() / 1e6,
 	}
 
 	err = a.store.SaveRecord(record)
@@ -106,4 +128,8 @@ func (a *APP) updateHistory(name string, isCN bool) error {
 	}
 
 	return nil
+}
+
+func recordKey(name string, isCN bool) string {
+	return name + strconv.FormatBool(isCN)
 }

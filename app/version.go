@@ -26,7 +26,7 @@ func (a *APP) Version(w http.ResponseWriter, r *http.Request) {
 }
 
 func Version() string {
-	return fmt.Sprintf("%s \ntag: %s\nbuild: %s\nhash: %s\n",
+	return fmt.Sprintf("%s \ntag: %s\nbuild: %s\nhash: %s",
 		BuildAppName,
 		BuildVersion,
 		BuildTime,
