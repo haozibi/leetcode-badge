@@ -8,8 +8,8 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
+	"github.com/haozibi/leetcode-badge/internal/statics"
 	"github.com/haozibi/leetcode-badge/internal/storage"
-	"github.com/haozibi/leetcode-badge/internal/tools"
 )
 
 // HistoryChart history chart
@@ -33,7 +33,7 @@ func (a *APP) historyChart(badgeType BadgeType, name string, isCN bool, start, e
 
 	if userInfo == nil || userInfo.UserSlug == "" {
 		// 用户没找到
-		return tools.SVCNotFound, nil
+		return statics.SVGNotFound(), nil
 	}
 
 	list, err := a.getHistoryList(name, isCN, start, end)
@@ -43,7 +43,7 @@ func (a *APP) historyChart(badgeType BadgeType, name string, isCN bool, start, e
 
 	if len(list) < 2 {
 		// 数据不足，过几天再来查看
-		return tools.SVGLackData, nil
+		return statics.GetLackSVG(), nil
 	}
 
 	body, err := showFn(list, userInfo.RealName)
