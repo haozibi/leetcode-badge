@@ -66,3 +66,34 @@ type UserProfile struct {
 	AcTotal          int    `json:"acTotal"`          // 解决题目数量
 	QuestionTotal    int    `json:"questionTotal"`    // 题目总数
 }
+
+type GetUserProfileResult struct {
+	Data UserProfileData `json:"data"`
+}
+
+type UserProfileData struct {
+	MatchedUser       MatchedUser  `json:"matchedUser"`
+	AllQuestionsCount []Submission `json:"allQuestionsCount"`
+}
+
+type MatchedUser struct {
+	Profile     MatchedUserProfile `json:"profile"`
+	SubmitStats SubmitStats        `json:"submitStats"`
+}
+
+type MatchedUserProfile struct {
+	RealName   string `json:"realName"`
+	UserAvatar string `json:"userAvatar"`
+	Ranking    int    `json:"ranking"`
+}
+
+type SubmitStats struct {
+	AcSubmissionNum    []Submission `json:"acSubmissionNum"`
+	TotalSubmissionNum []Submission `json:"totalSubmissionNum"`
+}
+
+type Submission struct {
+	Count       int    `json:"count"`
+	Difficulty  string `json:"difficulty"`
+	Submissions int    `json:"submissions"`
+}
