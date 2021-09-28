@@ -2,9 +2,7 @@ package leetcode
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -29,45 +27,29 @@ func GetUserProfile(userName string, isCN bool) (*UserProfile, error) {
 	return getUserProfile(userName)
 }
 
-func getCNUserProfile(userName string) (*UserProfile, error) {
+func getCNUserProfile(name string) (*UserProfile, error) {
 
-	url := "https://leetcode-cn.com/graphql"
+	var (
+		uri    = "https://leetcode-cn.com/graphql"
+		method = http.MethodPost
+		client = http.DefaultClient
+		p      = LeetCodeUserProfile{}
+	)
 
-	var genQueryJSON = func(userName string) io.Reader {
-
+	var query = func(userName string) string {
 		s := fmt.Sprintf("{\"operationName\":\"userPublicProfile\",\"variables\":{\"userSlug\":\"%s\"},\"query\":\"query userPublicProfile($userSlug: String!) {\\nuserProfilePublicProfile(userSlug: $userSlug) {\\nusername\\nhaveFollowed\\nsiteRanking\\nprofile {\\nuserSlug\\nrealName\\nuserAvatar\\nlocation\\ncontestCount\\nasciiCode\\n__typename\\n}\\n submissionProgress {\\ntotalSubmissions\\nwaSubmissions\\nacSubmissions\\nreSubmissions\\notherSubmissions\\nacTotal\\nquestionTotal\\n__typename\\n}\\n__typename\\n}\\n}\\n\"}", userName)
-
-		return strings.NewReader(s)
+		return s
 	}
 
-	req, err := http.NewRequest("POST", url, genQueryJSON(userName))
-	if err != nil {
+	if err := Send(client, uri, method, query(name), &p); err != nil {
 		return nil, err
 	}
 
-	req.Header.Add("origin", "https://leetcode-cn.com")
-	req.Header.Add("user-agent", GetUserAgent())
-	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://leetcode-cn.com")
-
-	body, _, err := request.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-
-	var p LeetCodeUserProfile
-
-	err = json.Unmarshal(body, &p)
-	if err != nil {
-		return nil, errors.Wrap(err, "json parse")
-	}
-
-	if p.Data.UserProfilePublicProfile.Username == "" {
+	if p.UserProfilePublicProfile.Username == "" {
 		return nil, nil
 	}
 
-	pp := p.Data.UserProfilePublicProfile
-
+	pp := p.UserProfilePublicProfile
 	userProfile := &UserProfile{
 		UserSlug:         pp.Profile.UserSlug,
 		RealName:         pp.Profile.RealName,

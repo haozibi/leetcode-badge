@@ -11,17 +11,10 @@ import (
 
 func Router(r *mux.Router, a *APP, w io.Writer) {
 
-	// r.Use(Monitor)
 	r.HandleFunc("/version", a.Version)
-	// r.HandleFunc("/cron", func(w http.ResponseWriter, r *http.Request) {
-	// 	a.cron()
-	// })
 
 	apiCNV1 := r.PathPrefix("/v1cn").Subrouter()
 	apiENV1 := r.PathPrefix("/v1").Subrouter()
-
-	// apiCNV1.Use(Monitor)
-	// apiENV1.Use(Monitor)
 
 	router := make([]*mux.Router, 0, 5)
 	router = append(router, apiCNV1)
@@ -56,6 +49,18 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeAcceptedRate, isCN)),
 		)
 
+		// 关注
+		api.Methods(http.MethodGet).Path("/badge/following/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w,
+				a.HandlerFunc(BadgeTypeFollowing, isCN)),
+		)
+
+		// 被关注数
+		api.Methods(http.MethodGet).Path("/badge/followers/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w,
+				a.HandlerFunc(BadgeTypeFollowers, isCN)),
+		)
+
 		// 排名记录图表
 		api.Methods(http.MethodGet).Path("/chart/ranking/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w,
@@ -82,9 +87,11 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 
 	switch badgeType {
 	case BadgeTypeProfile, BadgeTypeRanking, BadgeTypeSolved, BadgeTypeSolvedRate, BadgeTypeAccepted, BadgeTypeAcceptedRate:
-		f = a.Badge
+		f = a.Basic
 	case BadgeTypeChartRanking, BadgeTypeChartSolved:
 		f = a.Chart
+	case BadgeTypeFollowing, BadgeTypeFollowers:
+		f = a.Badge
 	}
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
