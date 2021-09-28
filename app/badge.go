@@ -51,10 +51,10 @@ func (a *APP) followBadge(value url.Values, typeName BadgeType, info *leetcode.F
 
 	switch typeName {
 	case BadgeTypeFollowers:
-		left = "followers"
+		left = "Followers"
 		right = strconv.Itoa(info.Followers)
 	case BadgeTypeFollowing:
-		left = "following"
+		left = "Following"
 		right = strconv.Itoa(info.Following)
 	default:
 		return nil, errors.Errorf("not match type")
