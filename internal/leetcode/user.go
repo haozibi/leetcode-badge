@@ -1,15 +1,10 @@
 package leetcode
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
-	"strings"
 
 	"github.com/pkg/errors"
-
-	"github.com/haozibi/leetcode-badge/internal/request"
 )
 
 // GetUserProfile get user profile by request leetcode
@@ -68,40 +63,28 @@ func getCNUserProfile(name string) (*UserProfile, error) {
 // 部分数据不全
 func getUserProfile(userName string) (*UserProfile, error) {
 
-	url := "https://leetcode.com/graphql"
+	var (
+		uri    = "https://leetcode.com/graphql"
+		method = http.MethodPost
+		client = http.DefaultClient
+		p      = UserProfileData{}
+	)
 
-	var genQueryJSON = func(userName string) io.Reader {
+	var genQueryJSON = func(userName string) string {
 
 		s := fmt.Sprintf("{\"operationName\":\"getUserProfile\",\"variables\":{\"username\":\"%s\"},\"query\":\"query getUserProfile($username: String!) {\\n  allQuestionsCount {\\n    difficulty\\n    count\\n    __typename\\n  }\\n  matchedUser(username: $username) {\\n    username\\n    socialAccounts\\n    githubUrl\\n    contributions {\\n      points\\n      questionCount\\n      testcaseCount\\n      __typename\\n    }\\n    profile {\\n      realName\\n      websites\\n      countryName\\n      skillTags\\n      company\\n      school\\n      starRating\\n      aboutMe\\n      userAvatar\\n      reputation\\n      ranking\\n      __typename\\n    }\\n    submissionCalendar\\n    submitStats {\\n      acSubmissionNum {\\n        difficulty\\n        count\\n        submissions\\n        __typename\\n      }\\n      totalSubmissionNum {\\n        difficulty\\n        count\\n        submissions\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n\"}", userName)
 
-		return strings.NewReader(s)
+		return s
 	}
 
-	req, err := http.NewRequest("POST", url, genQueryJSON(userName))
-	if err != nil {
+	if err := Send(client, uri, method, genQueryJSON(userName), &p); err != nil {
 		return nil, err
 	}
 
-	req.Header.Add("origin", "https://leetcode.com")
-	req.Header.Add("user-agent", GetUserAgent())
-	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://leetcode.com")
-
-	body, _, err := request.SendRequest(req)
-	if err != nil {
-		return nil, err
-	}
-
-	var p GetUserProfileResult
-	err = json.Unmarshal(body, &p)
-	if err != nil {
-		return nil, errors.Wrap(err, "json parse")
-	}
-
-	pp := p.Data.MatchedUser
+	pp := p.MatchedUser
 	userProfile := &UserProfile{
 		RealName:    pp.Profile.RealName,
-		UserSlug:    fmt.Sprintf("/%s", userName),
+		UserSlug:    fmt.Sprintf("%s", userName),
 		UserAvatar:  pp.Profile.UserAvatar,
 		SiteRanking: pp.Profile.Ranking,
 	}
@@ -109,25 +92,21 @@ func getUserProfile(userName string) (*UserProfile, error) {
 		if submission.Difficulty == "All" {
 			userProfile.AcSubmissions = submission.Submissions
 			userProfile.AcTotal = submission.Count
+			break
 		}
 	}
 	for _, submission := range pp.SubmitStats.TotalSubmissionNum {
 		if submission.Difficulty == "All" {
 			userProfile.TotalSubmissions = submission.Submissions
+			break
 		}
 	}
-	for _, submission := range p.Data.AllQuestionsCount {
+	for _, submission := range p.AllQuestionsCount {
 		if submission.Difficulty == "All" {
 			userProfile.QuestionTotal = submission.Count
+			break
 		}
 	}
 
 	return userProfile, nil
-}
-
-func cleanText(s string) string {
-	s = strings.Replace(s, " ", "", -1)
-	s = strings.Replace(s, "\t", "", -1)
-	s = strings.Replace(s, "\n", "", -1)
-	return s
 }

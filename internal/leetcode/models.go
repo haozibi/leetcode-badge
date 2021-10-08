@@ -34,10 +34,6 @@ type LeetCodeUserProfile struct {
 	UserProfilePublicProfile UserProfilePublicProfile `json:"userProfilePublicProfile"`
 }
 
-type LeetCodeErrors struct {
-	Errors []Errors `json:"errors"`
-}
-
 type Locations struct {
 	Line   int `json:"line"`
 	Column int `json:"column"`
@@ -61,10 +57,6 @@ type UserProfile struct {
 	OtherSubmissions int    `json:"otherSubmissions"` // 其他错误【无用】
 	AcTotal          int    `json:"acTotal"`          // 解决题目数量
 	QuestionTotal    int    `json:"questionTotal"`    // 题目总数
-}
-
-type GetUserProfileResult struct {
-	Data UserProfileData `json:"data"`
 }
 
 type UserProfileData struct {
