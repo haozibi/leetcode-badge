@@ -2,14 +2,11 @@ package leetcode
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
+	"io"
 	"net/http"
-	"regexp"
-	"strconv"
 	"strings"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/pkg/errors"
 
 	"github.com/haozibi/leetcode-badge/internal/request"
@@ -126,67 +123,6 @@ func getUserProfile(userName string) (*UserProfile, error) {
 	}
 
 	return userProfile, nil
-}
-
-func getData(selection *goquery.Selection, p *UserProfile) (err error) {
-
-	var parse = func(s string) (int, int, error) {
-
-		t := strings.Split(s, "/")
-		if len(t) != 2 {
-			return 0, 0, errors.New("parse / error")
-		}
-
-		n1, err := strconv.Atoi(t[0])
-		if err != nil {
-			return 0, 0, errors.Wrap(err, "strconv")
-		}
-
-		n2, err := strconv.Atoi(t[1])
-		if err != nil {
-			return 0, 0, errors.Wrap(err, "strconv")
-		}
-		return n1, n2, nil
-	}
-
-	if strings.Contains(selection.Text(), "Solved Question") {
-		solved := cleanText(selection.Find("span").Text())
-		p.AcTotal, p.QuestionTotal, err = parse(solved)
-		if err != nil {
-			return err
-		}
-	}
-
-	if strings.Contains(selection.Text(), "Accepted Submission") {
-		accepted := cleanText(selection.Find("span").Text())
-		p.AcSubmissions, p.TotalSubmissions, err = parse(accepted)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func getRanking(body string, p *UserProfile) (err error) {
-	x := regexp.MustCompile(`(?m)pc\.init\(([\s\S]*?){`).FindStringSubmatch(body)
-	if len(x) != 2 {
-		return errors.New("get ranking length invalid")
-	}
-
-	l := strings.Replace(x[1], "\n", "", -1)
-	l = strings.Replace(l, " ", "", -1)
-	l = strings.Replace(l, "'", "", -1)
-	ls := strings.Split(l, ",")
-	if len(ls) < 7 {
-		return errors.New("get ranking length invalid")
-	}
-
-	p.SiteRanking, err = strconv.Atoi(ls[6])
-	if err != nil {
-		return errors.Wrap(err, "strconv")
-	}
-	return nil
 }
 
 func cleanText(s string) string {
