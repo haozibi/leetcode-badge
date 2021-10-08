@@ -50,12 +50,16 @@ func Send(client *http.Client, uri string, method string, query string, ptr inte
 		return errors.Wrapf(err, "uri: %s, method: %s, resp body: %s", uri, method, string(body))
 	}
 
+	// ugly
 	if len(p.Errors) != 0 {
 		ee := ""
 		for _, v := range p.Errors {
+			if v.Message == ErrUserNotExist.Error() {
+				return nil
+			}
 			ee += " " + v.Message
 		}
-		return errors.Errorf(ee, "uri: %s, method: %s, query: %s", uri, method, query)
+		return errors.Errorf("error: %v, uri: %s, method: %s, query: %s", ee, uri, method, query)
 	}
 
 	err = json.Unmarshal(p.Data, ptr)

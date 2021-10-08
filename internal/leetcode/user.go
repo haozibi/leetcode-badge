@@ -81,6 +81,10 @@ func getUserProfile(userName string) (*UserProfile, error) {
 		return nil, err
 	}
 
+	if p.MatchedUser.Profile.RealName == "" {
+		return nil, nil
+	}
+
 	pp := p.MatchedUser
 	userProfile := &UserProfile{
 		RealName:    pp.Profile.RealName,
