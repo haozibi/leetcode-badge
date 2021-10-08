@@ -67,6 +67,20 @@
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/accepted-rate/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/accepted-rate/{LeetCode_ID}.svg`
 
+### 关注数
+
+*只有中国区可使用*
+
+- ![](https://leetcode-badge.haozibi.dev/v1cn/badge/following/haozibi.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/badge/following/{LeetCode_ID}.svg`
+
+### 被关注数
+
+*只有中国区可使用*
+
+- ![](https://leetcode-badge.haozibi.dev/v1cn/badge/followers/haozibi.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/badge/followers/{LeetCode_ID}.svg`
+
 ### 排名记录图表
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/chart/ranking/haozibi.svg)
