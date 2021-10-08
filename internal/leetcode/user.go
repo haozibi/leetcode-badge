@@ -1,6 +1,7 @@
 package leetcode
 
 import (
+	"encoding/json"
 	"bytes"
 	"fmt"
 	"net/http"
@@ -70,48 +71,61 @@ func getCNUserProfile(name string) (*UserProfile, error) {
 // 部分数据不全
 func getUserProfile(userName string) (*UserProfile, error) {
 
-	uri := "https://leetcode.com/" + userName
+	url := "https://leetcode.com/graphql"
 
-	req, _ := http.NewRequest("GET", uri, nil)
+	var genQueryJSON = func(userName string) io.Reader {
+
+		s := fmt.Sprintf("{\"operationName\":\"getUserProfile\",\"variables\":{\"username\":\"%s\"},\"query\":\"query getUserProfile($username: String!) {\\n  allQuestionsCount {\\n    difficulty\\n    count\\n    __typename\\n  }\\n  matchedUser(username: $username) {\\n    username\\n    socialAccounts\\n    githubUrl\\n    contributions {\\n      points\\n      questionCount\\n      testcaseCount\\n      __typename\\n    }\\n    profile {\\n      realName\\n      websites\\n      countryName\\n      skillTags\\n      company\\n      school\\n      starRating\\n      aboutMe\\n      userAvatar\\n      reputation\\n      ranking\\n      __typename\\n    }\\n    submissionCalendar\\n    submitStats {\\n      acSubmissionNum {\\n        difficulty\\n        count\\n        submissions\\n        __typename\\n      }\\n      totalSubmissionNum {\\n        difficulty\\n        count\\n        submissions\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n\"}", userName)
+
+		return strings.NewReader(s)
+	}
+
+	req, err := http.NewRequest("POST", url, genQueryJSON(userName))
+	if err != nil {
+		return nil, err
+	}
 
 	req.Header.Add("origin", "https://leetcode.com")
 	req.Header.Add("user-agent", GetUserAgent())
 	req.Header.Add("content-type", "application/json")
 	req.Header.Add("referer", "https://leetcode.com")
 
-	body, resp, err := request.SendRequest(req)
+	body, _, err := request.SendRequest(req)
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode == http.StatusNotFound {
-		return nil, nil
-	}
 
-	dom, err := goquery.NewDocumentFromReader(bytes.NewReader(body))
+	var p GetUserProfileResult
+	err = json.Unmarshal(body, &p)
 	if err != nil {
-		return nil, errors.Wrap(err, "goquery new")
+		return nil, errors.Wrap(err, "json parse")
 	}
 
-	var p UserProfile
-	dom.Find(".list-group-item").Each(func(i int, selection *goquery.Selection) {
-		if err2 := getData(selection, &p); err2 != nil {
-			err = err2
+	pp := p.Data.MatchedUser
+	userProfile := &UserProfile{
+		RealName:    pp.Profile.RealName,
+		UserSlug:    fmt.Sprintf("/%s", userName),
+		UserAvatar:  pp.Profile.UserAvatar,
+		SiteRanking: pp.Profile.Ranking,
+	}
+	for _, submission := range pp.SubmitStats.AcSubmissionNum {
+		if submission.Difficulty == "All" {
+			userProfile.AcSubmissions = submission.Submissions
+			userProfile.AcTotal = submission.Count
 		}
-	})
-
-	if err != nil {
-		return nil, errors.Wrap(err, "get user profile")
+	}
+	for _, submission := range pp.SubmitStats.TotalSubmissionNum {
+		if submission.Difficulty == "All" {
+			userProfile.TotalSubmissions = submission.Submissions
+		}
+	}
+	for _, submission := range p.Data.AllQuestionsCount {
+		if submission.Difficulty == "All" {
+			userProfile.QuestionTotal = submission.Count
+		}
 	}
 
-	err = getRanking(string(body), &p)
-	if err != nil {
-		return nil, errors.Wrap(err, "get user ranking")
-	}
-
-	p.RealName = cleanText(dom.Find(".realname").First().Text())
-	p.UserSlug = cleanText(dom.Find(".username").First().Text())
-
-	return &p, nil
+	return userProfile, nil
 }
 
 func getData(selection *goquery.Selection, p *UserProfile) (err error) {
