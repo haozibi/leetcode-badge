@@ -56,7 +56,7 @@ func (m *memoryCache) GetFollow(name string, isCN bool) (*leetcode.FollowInfo, e
 
 func (m *memoryCache) SaveFollow(name string, isCN bool, value *leetcode.FollowInfo) error {
 
-	name = userProfileKey(name, isCN)
+	name = userFollowKey(name, isCN)
 
 	m.store.Set(name, value, m.expirationTime)
 	return nil
