@@ -17,6 +17,9 @@ type Cache interface {
 	GetUserProfile(name string, isCN bool) (*leetcode.UserProfile, error)
 	SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile) error
 
+	GetFollow(name string, isCN bool) (*leetcode.FollowInfo, error)
+	SaveFollow(name string, isCN bool, value *leetcode.FollowInfo) error
+
 	GetHistoryRecord(name string, isCN bool, start, end time.Time) ([]storage.HistoryRecord, error)
 	SaveHistoryRecord(name string, isCN bool, start, end time.Time, info []storage.HistoryRecord) error
 

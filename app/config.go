@@ -6,18 +6,6 @@ type Config struct {
 	EnableCron bool
 }
 
-type Config2 struct {
-	Debug bool
-
-	Address     string
-	CronSpec    string
-	CacheType   string
-	StorageType string
-
-	RedisConfig RedisConfig
-	MySQLConfig MySQLConfig
-}
-
 type RedisConfig struct {
 	Address  string
 	Password string

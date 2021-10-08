@@ -21,7 +21,7 @@ BUILD_TAGS = ""
 BUILD_FLAGS = "-v"
 # PROTO_LOCATION = "internal/protocol_pb"
 
-.PHONY: build build-local build-linux clean govet bindata docker docker-push
+.PHONY: build build-local build-linux clean govet docker docker-push
 
 default: build
 
@@ -31,13 +31,6 @@ build: clean govet
 
 build-linux: clean govet
 	CGO_ENABLED=1 GOOS=${GOOS} GOARCH=${GOARCH} go build ${BUILD_FLAGS} -ldflags '${LDFLAGS}' -tags '${BUILD_TAGS}' -o ${BLDDIR}/${APP}
-
-bindata: clean
-	@ export GOPROXY=https://goproxy.cn && go get github.com/jteeuwen/go-bindata/...
-	@ go-bindata -nomemcopy -pkg=static \
-		-debug=false \
-		-o=static/static.go \
-		static/...
 
 
 .PHONY: docker

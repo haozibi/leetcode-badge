@@ -38,6 +38,24 @@ func (m *memoryCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProf
 
 func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile) error {
 
+	name = userFollowKey(name, isCN)
+
+	m.store.Set(name, value, m.expirationTime)
+	return nil
+}
+
+func (m *memoryCache) GetFollow(name string, isCN bool) (*leetcode.FollowInfo, error) {
+
+	name = userFollowKey(name, isCN)
+
+	if x, found := m.store.Get(name); found {
+		return x.(*leetcode.FollowInfo), nil
+	}
+	return nil, errors.New("not found")
+}
+
+func (m *memoryCache) SaveFollow(name string, isCN bool, value *leetcode.FollowInfo) error {
+
 	name = userProfileKey(name, isCN)
 
 	m.store.Set(name, value, m.expirationTime)
@@ -49,6 +67,13 @@ func userProfileKey(name string, isCN bool) string {
 		return "user_profile_cn_" + name
 	}
 	return "user_profile_" + name
+}
+
+func userFollowKey(name string, isCN bool) string {
+	if isCN {
+		return "user_follow_cn_" + name
+	}
+	return "user_follow_" + name
 }
 
 func historyKey(name string, isCN bool, start, end time.Time) string {

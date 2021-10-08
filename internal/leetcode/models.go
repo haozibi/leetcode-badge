@@ -1,9 +1,5 @@
 package leetcode
 
-type LeetCodeUserProfile struct {
-	Data Data `json:"data"`
-}
-
 type Profile struct {
 	UserSlug     string `json:"userSlug"`
 	RealName     string `json:"realName"`
@@ -34,7 +30,7 @@ type UserProfilePublicProfile struct {
 	Typename           string             `json:"__typename"`
 }
 
-type Data struct {
+type LeetCodeUserProfile struct {
 	UserProfilePublicProfile UserProfilePublicProfile `json:"userProfilePublicProfile"`
 }
 

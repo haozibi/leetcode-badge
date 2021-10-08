@@ -103,3 +103,7 @@
 
 - [Picas](https://github.com/djyde/Picas): logo 生成
 - [shields.io](https://shields.io): badge 生成
+
+## JetBrains 开源证书支持
+
+[![](static/jetbrains.svg)](https://www.jetbrains.com/?from=leetcode-badge)

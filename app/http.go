@@ -9,8 +9,40 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Badge badge
-func (a *APP) Badge(badgeType BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
+func (a *APP) Badge(bt BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
+	if !isCN {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("404 not found"))
+		return
+	}
+
+	info, err := a.userFollow(name)
+	if err != nil {
+		log.Err(err).
+			Str("BadgeType", bt.String()).
+			Str("Name", name).
+			Bool("IsCN", isCN).
+			Msg("get user follow error")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	body, err := a.followBadge(r.URL.Query(), bt, info)
+	if err != nil {
+		log.Err(err).
+			Str("BadgeType", bt.String()).
+			Str("Name", name).
+			Bool("IsCN", isCN).
+			Msg("get badge error")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	a.write(w, body)
+}
+
+// Basic info
+func (a *APP) Basic(badgeType BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
 
 	info, err := a.getUserProfile(name, isCN)
 	if err != nil {
@@ -23,7 +55,7 @@ func (a *APP) Badge(badgeType BadgeType, name string, isCN bool, w http.Response
 		return
 	}
 
-	body, err := a.getBadge(r.URL.Query(), isCN, badgeType, info)
+	body, err := a.basicBadge(r.URL.Query(), isCN, badgeType, info)
 	if err != nil {
 		log.Err(err).
 			Str("BadgeType", badgeType.String()).

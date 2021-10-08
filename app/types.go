@@ -10,6 +10,8 @@ const (
 	BadgeTypeSolvedRate
 	BadgeTypeAccepted
 	BadgeTypeAcceptedRate
+	BadgeTypeFollowing
+	BadgeTypeFollowers
 	BadgeTypeChartRanking
 	BadgeTypeChartSolved
 )
@@ -34,6 +36,10 @@ func (b BadgeType) String() string {
 		return "chat-ranking"
 	case BadgeTypeChartSolved:
 		return "chat-solved"
+	case BadgeTypeFollowing:
+		return "following"
+	case BadgeTypeFollowers:
+		return "followers"
 	}
 
 	return ""
