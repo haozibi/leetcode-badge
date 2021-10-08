@@ -38,7 +38,7 @@ func (m *memoryCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProf
 
 func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile) error {
 
-	name = userFollowKey(name, isCN)
+	name = userProfileKey(name, isCN)
 
 	m.store.Set(name, value, m.expirationTime)
 	return nil
