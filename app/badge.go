@@ -3,6 +3,7 @@ package app
 import (
 	"net/url"
 	"strconv"
+	"time"
 
 	"github.com/pkg/errors"
 
@@ -30,7 +31,7 @@ func (a *APP) userFollow(name string) (*leetcode.FollowInfo, error) {
 			info = new(leetcode.FollowInfo)
 		}
 
-		err = a.cache.SaveFollow(name, true, info)
+		err = a.cache.SaveFollow(name, true, info, 30*time.Minute)
 		if err != nil {
 			return nil, err
 		}

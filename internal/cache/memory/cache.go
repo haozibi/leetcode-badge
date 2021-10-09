@@ -13,17 +13,14 @@ import (
 )
 
 type memoryCache struct {
-	store          *gocache.Cache
-	expirationTime time.Duration
+	store *gocache.Cache
 }
 
 // New new
 func New() cache.Cache {
 	return &memoryCache{
-		store:          gocache.New(5*time.Minute, 10*time.Minute),
-		expirationTime: cache.DefaultExpirationTime,
+		store: gocache.New(5*time.Minute, 10*time.Minute),
 	}
-
 }
 
 func (m *memoryCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProfile, error) {
@@ -36,11 +33,11 @@ func (m *memoryCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProf
 	return nil, errors.New("not found")
 }
 
-func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile) error {
+func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile, timeout time.Duration) error {
 
 	name = userProfileKey(name, isCN)
 
-	m.store.Set(name, value, m.expirationTime)
+	m.store.Set(name, value, timeout)
 	return nil
 }
 
@@ -54,11 +51,11 @@ func (m *memoryCache) GetFollow(name string, isCN bool) (*leetcode.FollowInfo, e
 	return nil, errors.New("not found")
 }
 
-func (m *memoryCache) SaveFollow(name string, isCN bool, value *leetcode.FollowInfo) error {
+func (m *memoryCache) SaveFollow(name string, isCN bool, value *leetcode.FollowInfo, timeout time.Duration) error {
 
 	name = userFollowKey(name, isCN)
 
-	m.store.Set(name, value, m.expirationTime)
+	m.store.Set(name, value, timeout)
 	return nil
 }
 
@@ -89,15 +86,15 @@ func (m *memoryCache) GetHistoryRecord(name string, isCN bool, start, end time.T
 	return nil, errors.New("not found")
 }
 
-func (m *memoryCache) SaveHistoryRecord(name string, isCN bool, start, end time.Time, info []storage.HistoryRecord) error {
+func (m *memoryCache) SaveHistoryRecord(name string, isCN bool, start, end time.Time, info []storage.HistoryRecord, timeout time.Duration) error {
 	key := historyKey(name, isCN, start, end)
-	m.store.Set(key, info, m.expirationTime)
+	m.store.Set(key, info, timeout)
 	return nil
 }
 
-func (m *memoryCache) SaveByteBody(name string, body []byte) error {
+func (m *memoryCache) SaveByteBody(name string, body []byte, tout time.Duration) error {
 
-	m.store.Set(name, body, gocache.NoExpiration)
+	m.store.Set(name, body, tout)
 	return nil
 }
 

@@ -16,8 +16,7 @@ import (
 )
 
 type redisCache struct {
-	client         *redis.Client
-	expirationTime time.Duration
+	client *redis.Client
 }
 
 // New new redis
@@ -40,8 +39,7 @@ func New(addr string, password string) (cache.Cache, error) {
 	}
 
 	return &redisCache{
-		client:         client,
-		expirationTime: cache.DefaultExpirationTime,
+		client: client,
 	}, nil
 }
 
@@ -64,7 +62,7 @@ func (m *redisCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProfi
 	return p, errors.Wrap(err, "redis get user profile")
 }
 
-func (m *redisCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile) error {
+func (m *redisCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile, timeout time.Duration) error {
 
 	name = userProfileKey(name, isCN)
 
@@ -73,12 +71,12 @@ func (m *redisCache) SaveUserProfile(name string, isCN bool, value *leetcode.Use
 		return errors.Wrap(err, "redis set")
 	}
 
-	return errors.Wrap(m.client.Set(name, v, m.expirationTime).Err(), "redis save user profile")
+	return errors.Wrap(m.client.Set(name, v, timeout).Err(), "redis save user profile")
 }
 
-func (m *redisCache) SaveByteBody(name string, body []byte) error {
+func (m *redisCache) SaveByteBody(name string, body []byte, timeout time.Duration) error {
 
-	return errors.Wrap(m.client.Set(name, body, 24*7*time.Hour).Err(), "redis save byte body")
+	return errors.Wrap(m.client.Set(name, body, timeout).Err(), "redis save byte body")
 }
 
 func (m *redisCache) GetByteBody(name string) ([]byte, error) {
@@ -109,14 +107,14 @@ func (m *redisCache) GetHistoryRecord(name string, isCN bool, start, end time.Ti
 	return p, errors.Wrap(err, "redis get record history")
 }
 
-func (m *redisCache) SaveHistoryRecord(name string, isCN bool, start, end time.Time, info []storage.HistoryRecord) error {
+func (m *redisCache) SaveHistoryRecord(name string, isCN bool, start, end time.Time, info []storage.HistoryRecord, timeout time.Duration) error {
 
 	key := recordKey(name, isCN, start, end)
 	v, err := gobEnValue(info)
 	if err != nil {
 		return errors.Wrap(err, "redis set")
 	}
-	return errors.Wrap(m.client.Set(key, v, m.expirationTime).Err(), "redis save record history")
+	return errors.Wrap(m.client.Set(key, v, timeout).Err(), "redis save record history")
 }
 
 func gobEnValue(value interface{}) ([]byte, error) {

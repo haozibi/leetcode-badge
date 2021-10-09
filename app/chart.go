@@ -105,7 +105,7 @@ func (a *APP) getHistoryList(name string, isCN bool, start, end time.Time) ([]st
 		}
 
 		go func() {
-			a.cache.SaveHistoryRecord(name, isCN, start, end, list)
+			a.cache.SaveHistoryRecord(name, isCN, start, end, list, 30*time.Minute)
 		}()
 		return list, nil
 	}
@@ -155,4 +155,6 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 	reqKey := "subcal_" + name
 
 	_ = reqKey
+
+	return nil, nil
 }
