@@ -35,11 +35,12 @@
 ![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/onjoujitoki.svg)
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg`
 
-注意事项
+注意事项:
 
 1. 暂时只支持中国区
-2. 只有开启了 `设置-通知与隐私-显示我的提交记录` 才支持此功能
-3. 好像即使开启了，一天后才能看到效果，(*好饭不怕晚*)
+2. 只有开启了 **`设置-通知与隐私-显示我的提交记录`** 才支持此功能
+3. 好像即使开启了，一天后才能看到效果
+4. 暂时只能看到*当前年*的结果，正在准备优化
 
 ### 用户名
 
