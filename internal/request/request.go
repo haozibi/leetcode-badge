@@ -3,17 +3,12 @@ package request
 import (
 	"io/ioutil"
 	"net/http"
-	"time"
 
 	"github.com/pkg/errors"
 )
 
-var client = &http.Client{
-	Timeout: 5 * time.Second,
-}
-
 // SendRequest send request
-func SendRequest(req *http.Request) ([]byte, *http.Response, error) {
+func SendRequest(client *http.Client, req *http.Request) ([]byte, *http.Response, error) {
 
 	resp, err := client.Do(req)
 	if err != nil {

@@ -105,13 +105,15 @@
 
 ## 自定义
 
-此项目依托 [shields.io](shields.io)，支持所有 shields 的 Query 参数
+此项目依托 [shields.io](https://shields.io)，支持所有 shields 的 Query 参数
 
 例如：
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode`
 - ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode`
 - ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode`
+
+更多 logo 可以查看 [simpleicons.org](https://simpleicons.org/) 或者 [https://github.com/simple-icons/simple-icons/blob/develop/slugs.md](https://github.com/simple-icons/simple-icons/blob/develop/slugs.md)
 
 ## 致谢
 

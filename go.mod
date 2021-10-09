@@ -3,7 +3,6 @@ module github.com/haozibi/leetcode-badge
 go 1.16
 
 require (
-	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/blend/go-sdk v2.0.0+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-redis/redis v6.15.6+incompatible
@@ -17,7 +16,7 @@ require (
 	github.com/onsi/ginkgo v1.10.2 // indirect
 	github.com/onsi/gomega v1.7.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/robfig/cron/v3 v3.0.1-0.20190716002318-e843a09e5b2d
 	github.com/rs/zerolog v1.20.0
 	github.com/spf13/cobra v0.0.5
