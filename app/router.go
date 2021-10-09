@@ -73,6 +73,12 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 				a.HandlerFunc(BadgeTypeChartSolved, isCN)),
 		)
 
+		// 获得答题日历
+		api.Methods(http.MethodGet).Path("/chart/submission-calendar/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w,
+				a.HandlerFunc(BadgeTypeChartSolved, isCN)),
+		)
+
 		// 获得个人信息
 		api.Methods(http.MethodGet).Path("/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeProfile, isCN)),
@@ -92,6 +98,8 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 		f = a.Chart
 	case BadgeTypeFollowing, BadgeTypeFollowers:
 		f = a.Badge
+	case BadgeTypeChartSubmissionCalendar:
+		f = a.SubCal
 	}
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

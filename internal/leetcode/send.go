@@ -12,17 +12,13 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Send(client *http.Client, uri string, method string, query string, ptr interface{}) error {
-	if t := reflect.TypeOf(ptr); t.Kind() != reflect.Ptr {
-		return errors.Errorf("ptr must be ptr")
-	}
-
+func SendRaw(client *http.Client, uri string, method string, query string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	req, err := http.NewRequestWithContext(ctx, method, uri, strings.NewReader(query))
 	if err != nil {
-		return errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
+		return nil, errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
 	}
 
 	req.Header.Add("origin", "https://leetcode-cn.com")
@@ -32,17 +28,26 @@ func Send(client *http.Client, uri string, method string, query string, ptr inte
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
+		return nil, errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return errors.Errorf("status code error, code: %d, uri: %s, method: %s, query: %s", resp.StatusCode, uri, method, query)
+		return nil, errors.Errorf("status code error, code: %d, uri: %s, method: %s, query: %s", resp.StatusCode, uri, method, query)
 	}
 
 	body, err := ioutil.ReadAll(resp.Body)
+	return body, errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
+}
+
+func Send(client *http.Client, uri string, method string, query string, ptr interface{}) error {
+	if t := reflect.TypeOf(ptr); t.Kind() != reflect.Ptr {
+		return errors.Errorf("ptr must be ptr")
+	}
+
+	body, err := SendRaw(client, uri, method, query)
 	if err != nil {
-		return errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
+		return err
 	}
 
 	var p Data

@@ -10,22 +10,19 @@ func TestGetFollow(t *testing.T) {
 	var (
 		name1 = "haozibi"
 		name2 = "haozibi2"
-		a     = -1
-		b     = -1
-		err   error
 	)
 
-	a, b, err = GetFollow(name1)
+	a, err := GetFollow(name1)
 	if err != nil {
 		t.Error(err)
 	}
 
-	fmt.Println(a, b)
+	fmt.Println(a)
 
-	a, b, err = GetFollow(name2)
+	b, err := GetFollow(name2)
 	if err != nil {
 		t.Error(err)
 	}
 
-	fmt.Println(a, b)
+	fmt.Println(b)
 }

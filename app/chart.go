@@ -3,9 +3,11 @@ package app
 import (
 	"bytes"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
 	"github.com/haozibi/leetcode-badge/internal/statics"
@@ -114,4 +116,43 @@ func (a *APP) getHistoryList(name string, isCN bool, start, end time.Time) ([]st
 	}
 
 	return result.([]storage.HistoryRecord), nil
+}
+
+// SubCal SubmissionCalendar
+func (a *APP) SubCal(_ BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
+	if !isCN {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("404 not found"))
+		return
+	}
+
+	body, err := a.getSubCal(name, r)
+	if err != nil {
+		log.Err(err).
+			Str("Name", name).
+			Bool("IsCN", isCN).
+			Msg("get subcal error")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	a.write(w, body)
+}
+
+func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
+	var (
+		query = r.URL.Query().Encode()
+		key   = fmt.Sprintf("subcal_%s_oo_%s", name, query)
+		body  []byte
+		err   error
+	)
+
+	body, err = a.cache.GetByteBody(key)
+	if err == nil && len(body) != 0 {
+		return body, nil
+	}
+
+	reqKey := "subcal_" + name
+
+	_ = reqKey
 }
