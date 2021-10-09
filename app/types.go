@@ -1,5 +1,7 @@
 package app
 
+import "github.com/pkg/errors"
+
 type BadgeType int
 
 const (
@@ -47,3 +49,7 @@ func (b BadgeType) String() string {
 
 	return ""
 }
+
+var (
+	ErrUserNotSupport = errors.Errorf("user setting not support")
+)

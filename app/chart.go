@@ -131,11 +131,15 @@ func (a *APP) SubCal(_ BadgeType, name string, isCN bool, w http.ResponseWriter,
 
 	body, err := a.getSubCal(name, r)
 	if err != nil {
-		log.Err(err).
-			Str("Name", name).
-			Bool("IsCN", isCN).
-			Msg("get subcal error")
-		w.WriteHeader(http.StatusInternalServerError)
+		if err == ErrUserNotSupport {
+			a.write(w, statics.SVGNotFound())
+		} else {
+			log.Err(err).
+				Str("Name", name).
+				Bool("IsCN", isCN).
+				Msg("get subcal error")
+			w.WriteHeader(http.StatusInternalServerError)
+		}
 		return
 	}
 
@@ -163,7 +167,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 			return nil, err
 		}
 		if len(data) == 0 {
-			return nil, errors.Errorf("user not support")
+			return nil, ErrUserNotSupport
 		}
 
 		res := make(map[string]int)
