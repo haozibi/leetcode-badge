@@ -30,6 +30,17 @@
 
 ## 使用
 
+### 做题记录
+
+![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/onjoujitoki.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg`
+
+注意事项
+
+1. 暂时只支持中国区
+2. 只有开启了 `设置-通知与隐私-显示我的提交记录` 才支持此功能
+3. 好像即使开启了，一天后才能看到效果，(*好饭不怕晚*)
+
 ### 用户名
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/haozibi.svg)

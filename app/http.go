@@ -44,8 +44,6 @@ func (a *APP) Badge(bt BadgeType, name string, isCN bool, w http.ResponseWriter,
 // Basic info
 func (a *APP) Basic(badgeType BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("name", name)
-
 	info, err := a.getUserProfile(name, isCN)
 	if err != nil {
 		log.Err(err).
