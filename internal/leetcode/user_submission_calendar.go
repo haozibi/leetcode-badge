@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/pkg/errors"
 )
 
@@ -32,6 +31,5 @@ func GetSubCal(name string) (map[string]int, error) {
 		return nil, errors.Wrapf(err, "body: %s", string(body))
 	}
 
-	spew.Dump(p)
 	return p, nil
 }

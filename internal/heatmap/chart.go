@@ -4,26 +4,21 @@ import (
 	"bytes"
 	_ "embed"
 	"image/color"
-	"log"
-	"os"
 	"time"
 
 	"github.com/nikolaydubina/calendarheatmap/charts"
+	"github.com/pkg/errors"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 
 	"github.com/haozibi/leetcode-badge/internal/statics"
 )
 
-func Do() {
-	counts := make(map[string]int)
-	counts["2021-10-09"] = 10
-	counts["2021-10-08"] = 0
-	counts["2021-10-07"] = 20
+func Do(counts map[string]int) ([]byte, error) {
 
 	colorscale, err := charts.NewBasicColorscaleFromCSV(bytes.NewBuffer(statics.ColorYellow()))
 	if err != nil {
-		log.Fatal(err)
+		return nil, errors.WithStack(err)
 	}
 
 	fontFace, err := charts.LoadFontFace(statics.TTF(), opentype.FaceOptions{
@@ -32,7 +27,7 @@ func Do() {
 		Hinting: font.HintingNone,
 	})
 	if err != nil {
-		log.Fatal(err)
+		return nil, errors.WithStack(err)
 	}
 
 	conf := charts.HeatmapConfig{
@@ -57,14 +52,11 @@ func Do() {
 			time.Friday:    true,
 		},
 	}
-	outputfile, err := os.Create("a.svg")
-	if err != nil {
-		panic(err)
+
+	b := bytes.NewBuffer(make([]byte, 0, 100))
+	if err = charts.WriteHeatmap(conf, b); err != nil {
+		return nil, errors.WithStack(err)
 	}
-	if err := charts.WriteHeatmap(conf, outputfile); err != nil {
-		panic(err)
-	}
-	if err := outputfile.Close(); err != nil {
-		panic(err)
-	}
+
+	return b.Bytes(), nil
 }

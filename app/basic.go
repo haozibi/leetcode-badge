@@ -126,7 +126,7 @@ func (a *APP) getBadge(value url.Values, key, left, right string, color string) 
 	if err != nil {
 		return nil, err
 	}
-	if err = a.cache.SaveByteBody(key, badgeBody, 24*time.Hour); err != nil {
+	if err = a.cache.SaveByteBody(key, badgeBody, 7*24*time.Hour); err != nil {
 		log.Err(err).Str("Key", key).Str("Left", left).Str("Right", right).Str("Color", color).Msg("save badge data error")
 	}
 

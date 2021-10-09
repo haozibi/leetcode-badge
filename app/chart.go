@@ -4,12 +4,15 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
+	"github.com/haozibi/leetcode-badge/internal/heatmap"
+	"github.com/haozibi/leetcode-badge/internal/leetcode"
 	"github.com/haozibi/leetcode-badge/internal/statics"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 )
@@ -153,8 +156,48 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 	}
 
 	reqKey := "subcal_" + name
+	fn := func() (interface{}, error) {
+		now := time.Now().Year()
+		data, err := leetcode.GetSubCal(name)
+		if err != nil {
+			return nil, err
+		}
+		if len(data) == 0 {
+			return nil, errors.Errorf("user not support")
+		}
 
-	_ = reqKey
+		res := make(map[string]int)
+		for k, v := range data {
+			i, err := strconv.Atoi(k)
+			if err != nil {
+				return nil, errors.Wrapf(err, "value: %s", k)
+			}
 
-	return nil, nil
+			// 只收集“本年”的数据，所使用的第三方库选取年的方式有问题
+			// TODO: 自己写一个
+			s := time.Unix(int64(i), 0)
+			if s.Year() == now {
+				res[s.Format("2006-01-02")] = v
+			}
+		}
+
+		body, err = heatmap.Do(res)
+		if err != nil {
+			return nil, err
+		}
+
+		if len(body) == 0 {
+			return nil, nil
+		}
+
+		err = a.cache.SaveByteBody(key, body, 5*time.Minute)
+		return body, err
+	}
+
+	result, err, _ := a.group.Do(reqKey, fn)
+	if err != nil {
+		return nil, err
+	}
+
+	return result.([]byte), nil
 }

@@ -76,7 +76,7 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 		// 获得答题日历
 		api.Methods(http.MethodGet).Path("/chart/submission-calendar/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeChartSolved, isCN)),
+				a.HandlerFunc(BadgeTypeChartSubmissionCalendar, isCN)),
 		)
 
 		// 获得个人信息
@@ -109,7 +109,7 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 		}
 		vars := mux.Vars(r)
 		name := vars["name"]
-		if name == "" {
+		if name == "" || f == nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
