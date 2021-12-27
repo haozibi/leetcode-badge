@@ -39,7 +39,7 @@
 
 ### 做题记录
 
-![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/onjoujitoki.svg)
+![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg)
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg`
 
 注意事项:
