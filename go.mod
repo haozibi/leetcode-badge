@@ -29,4 +29,5 @@ require (
 	golang.org/x/sys v0.0.0-20190825160603-fb81701db80f // indirect
 	google.golang.org/appengine v1.6.5 // indirect
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
