@@ -4,7 +4,9 @@ FROM golang:1.18.2-alpine3.16 AS build-env
 
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
-RUN apk --no-cache add build-base git
+# https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0#faccessat2
+# https://command-not-found.com/scmp_sys_resolver
+RUN apk --no-cache add build-base git libseccomp
 
 # build
 ARG BIN_NAME=leetcode-badge
@@ -26,7 +28,7 @@ FROM alpine3.16
 
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
-RUN apk update && apk add tzdata \
+RUN apk update && apk add tzdata libseccomp \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \ 
     && echo "Asia/Shanghai" > /etc/timezone
 
