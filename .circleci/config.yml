@@ -6,7 +6,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker_layer_caching: false
+          version: 20.10.14
+          docker_layer_caching: true
       - run: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER registry.cn-beijing.aliyuncs.com --password-stdin
       - run: make docker
       - run: docker images
@@ -17,7 +18,8 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker_layer_caching: false
+          version: 20.10.14
+          docker_layer_caching: true
       - run: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER registry.cn-beijing.aliyuncs.com --password-stdin
       - run: make docker-push
       - run: docker images
@@ -38,3 +40,4 @@ workflows:
               ignore: /.*/
 
 # https://discuss.circleci.com/t/legacy-convenience-image-deprecation/41034/1
+# https://circleci.com/docs/2.0/building-docker-images/
