@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/blend/go-sdk v2.0.0+incompatible // indirect
+	github.com/blurfx/calendar-heatmap v1.0.0
 	github.com/davecgh/go-spew v1.1.1
 	github.com/go-redis/redis v6.15.6+incompatible
 	github.com/go-sql-driver/mysql v1.4.1

@@ -161,7 +161,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 
 	reqKey := "subcal_" + name
 	fn := func() (interface{}, error) {
-		now := time.Now().Year()
+		// now := time.Now().Year()
 		data, err := leetcode.GetSubCal(name)
 		if err != nil {
 			return nil, err
@@ -170,7 +170,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 			return nil, ErrUserNotSupport
 		}
 
-		res := make(map[string]int)
+		res := make(map[int]int)
 		for k, v := range data {
 			i, err := strconv.Atoi(k)
 			if err != nil {
@@ -179,13 +179,10 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 
 			// 只收集“本年”的数据，所使用的第三方库选取年的方式有问题
 			// TODO: 自己写一个
-			s := time.Unix(int64(i), 0)
-			if s.Year() == now {
-				res[s.Format("2006-01-02")] = v
-			}
+			res[i] = v
 		}
 
-		body, err = heatmap.Do(res)
+		body, err = heatmap.Do2(res)
 		if err != nil {
 			return nil, err
 		}
