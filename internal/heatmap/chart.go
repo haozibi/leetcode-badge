@@ -19,11 +19,12 @@ import (
 // data, key: timestamp, value: count
 func Do2(data map[int]int) ([]byte, error) {
 	now := time.Now()
+	year := now.Year()
 	input := make(map[heatmap.Date]int, len(data))
 
 	for k, v := range data {
 		t := time.Unix(int64(k), 0)
-		if t.Year() != now.Year() {
+		if t.Year() != year {
 			continue
 		}
 
@@ -37,12 +38,12 @@ func Do2(data map[int]int) ([]byte, error) {
 	h := heatmap.New(nil)
 	buf := h.Generate(
 		heatmap.Date{
-			Year:  now.Year(),
+			Year:  year,
 			Month: time.January,
 			Day:   1,
 		},
 		heatmap.Date{
-			Year:  now.Year(),
+			Year:  year,
 			Month: time.December,
 			Day:   31,
 		},
