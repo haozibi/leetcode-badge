@@ -35,6 +35,7 @@ build-linux: clean govet
 
 .PHONY: docker
 docker:
+	docker info
 	docker build -t ${CONTAINER_IMAGE}:${VERSION} -f ./Dockerfile .
 
 .PHONY: docker-push

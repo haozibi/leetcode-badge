@@ -16,6 +16,7 @@ ADD go.sum .
 #RUN go env -w GO111MODULE=on && go env -w GOPROXY="https://goproxy.cn,direct" && go mod download
 RUN go env -w GO111MODULE=on && go mod download
 ADD . .
+RUN scmp_sys_resolver faccessat2
 RUN make build-linux
 
 # upx
