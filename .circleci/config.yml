@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cimg/go:latest
+      - image: cimg/go:1.18.2
     steps:
       - checkout
       - setup_remote_docker:
@@ -13,7 +13,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/go:latest
+      - image: cimg/go:1.18.2
     steps:
       - checkout
       - setup_remote_docker:
@@ -36,3 +36,5 @@ workflows:
               only: /^v(\d+)\.(\d+)\.(\d+)/
             branches:
               ignore: /.*/
+
+# https://discuss.circleci.com/t/legacy-convenience-image-deprecation/41034/1
