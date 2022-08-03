@@ -189,8 +189,6 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 				return nil, errors.Wrapf(err, "value: %s", k)
 			}
 
-			// 只收集“本年”的数据，所使用的第三方库选取年的方式有问题
-			// TODO: 自己写一个
 			res[i] = v
 		}
 
