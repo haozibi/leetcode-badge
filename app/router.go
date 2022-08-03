@@ -49,34 +49,29 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeAcceptedRate, isCN)),
 		)
 
-		// 关注
+		// [badge] 关注
 		api.Methods(http.MethodGet).Path("/badge/following/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeFollowing, isCN)),
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowing, isCN)),
 		)
 
-		// 被关注数
+		// [badge] 被关注数
 		api.Methods(http.MethodGet).Path("/badge/followers/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeFollowers, isCN)),
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowers, isCN)),
 		)
 
-		// 排名记录图表
+		// [chart] 排名记录图表
 		api.Methods(http.MethodGet).Path("/chart/ranking/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeChartRanking, isCN)),
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeChartRanking, isCN)),
 		)
 
-		// 答题数量图表
+		// [chart] 答题数量图表
 		api.Methods(http.MethodGet).Path("/chart/solved/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeChartSolved, isCN)),
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeChartSolved, isCN)),
 		)
 
-		// 获得答题日历
+		// [chart] 获得答题日历
 		api.Methods(http.MethodGet).Path("/chart/submission-calendar/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w,
-				a.HandlerFunc(BadgeTypeChartSubmissionCalendar, isCN)),
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeChartSubmissionCalendar, isCN)),
 		)
 
 		// 获得个人信息

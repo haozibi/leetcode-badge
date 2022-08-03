@@ -6,7 +6,6 @@ import (
 	"image/color"
 	"time"
 
-	heatmap "github.com/blurfx/calendar-heatmap"
 	"github.com/nikolaydubina/calendarheatmap/charts"
 	"github.com/pkg/errors"
 	"golang.org/x/image/font"
@@ -15,37 +14,47 @@ import (
 	"github.com/haozibi/leetcode-badge/internal/statics"
 )
 
-// Do2 just current year
-// data, key: timestamp, value: count
-func Do2(data map[int]int) ([]byte, error) {
+// LastYear 过去一年
+func LastYear(data map[int64]int) ([]byte, error) {
 	now := time.Now()
-	year := now.Year()
-	input := make(map[heatmap.Date]int, len(data))
+	return Build(now.AddDate(-1, 0, 0).Unix(), now.Unix(), data)
+}
 
+// CurrYear 当前年
+func CurrYear(data map[int64]int) ([]byte, error) {
+	now := time.Now()
+	s := time.Date(now.Year(), time.January, 1, 0, 0, 0, 0, time.UTC)
+	e := time.Date(now.Year(), time.December, 31, 23, 59, 59, 0, time.UTC)
+
+	return Build(s.Unix(), e.Unix(), data)
+}
+
+func Build(start, end int64, data map[int64]int) ([]byte, error) {
+
+	input := make(map[Date]int, len(data))
 	for k, v := range data {
-		t := time.Unix(int64(k), 0)
-		if t.Year() != year {
-			continue
+		if k >= start && k <= end {
+			t := time.Unix(k, 0)
+			input[Date{
+				Year:  t.Year(),
+				Month: t.Month(),
+				Day:   t.Day(),
+			}] = v % 5 // only 5 color
 		}
-
-		input[heatmap.Date{
-			Year:  t.Year(),
-			Month: t.Month(),
-			Day:   t.Day(),
-		}] = v % 5 // only 5 color
 	}
 
-	h := heatmap.New(nil)
+	st, et := time.Unix(start, 0), time.Unix(end, 0)
+	h := New(nil)
 	buf := h.Generate(
-		heatmap.Date{
-			Year:  year,
-			Month: time.January,
-			Day:   1,
+		Date{
+			Year:  st.Year(),
+			Month: st.Month(),
+			Day:   st.Day(),
 		},
-		heatmap.Date{
-			Year:  year,
-			Month: time.December,
-			Day:   31,
+		Date{
+			Year:  et.Year(),
+			Month: et.Month(),
+			Day:   et.Day(),
 		},
 		input,
 	)

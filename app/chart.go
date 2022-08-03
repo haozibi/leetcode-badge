@@ -154,6 +154,15 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 		err   error
 	)
 
+	var f func(data map[int64]int) ([]byte, error)
+	t := r.URL.Query().Get("type")
+	switch t {
+	case "last-year":
+		f = heatmap.LastYear
+	default:
+		f = heatmap.CurrYear
+	}
+
 	body, err = a.cache.GetByteBody(key)
 	if err == nil && len(body) != 0 {
 		return body, nil
@@ -170,9 +179,9 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 			return nil, ErrUserNotSupport
 		}
 
-		res := make(map[int]int)
+		res := make(map[int64]int)
 		for k, v := range data {
-			i, err := strconv.Atoi(k)
+			i, err := strconv.ParseInt(k, 10, 64)
 			if err != nil {
 				return nil, errors.Wrapf(err, "value: %s", k)
 			}
@@ -182,7 +191,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 			res[i] = v
 		}
 
-		body, err = heatmap.Do2(res)
+		body, err = f(res)
 		if err != nil {
 			return nil, err
 		}
