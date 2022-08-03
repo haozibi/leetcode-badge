@@ -116,7 +116,7 @@ func (a *APP) runHTTP() error {
 		Addr:         address,
 		WriteTimeout: 120 * time.Second,
 		ReadTimeout:  120 * time.Second,
-		Handler:      handlers.RecoveryHandler()(r),
+		Handler:      handlers.RecoveryHandler()(handlers.CompressHandler(r)),
 	}
 
 	go func() {
