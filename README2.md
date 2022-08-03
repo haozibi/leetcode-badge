@@ -2,8 +2,6 @@
 
 [![CircleCI](https://circleci.com/gh/haozibi/leetcode-badge/tree/master.svg?style=svg)](https://circleci.com/gh/haozibi/leetcode-badge/tree/master) [![](https://img.shields.io/badge/Github-leetcode--badge-blueviolet)](https://github.com/haozibi/leetcode-badge) [![Go Report Card](https://goreportcard.com/badge/github.com/haozibi/leetcode-badge)](https://goreportcard.com/report/github.com/haozibi/leetcode-badge) [![](https://leetcode-badge.haozibi.dev/v1cn/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://leetcode-badge.haozibi.dev/v1cn/solved/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://leetcode-badge.haozibi.dev/v1cn/solved-rate/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://leetcode-badge.haozibi.dev/v1cn/accepted/haozibi.svg)](https://leetcode-cn.com/haozibi) [![](https://leetcode-badge.haozibi.dev/v1cn/accepted-rate/haozibi.svg)](https://leetcode-cn.com/haozibi)
 
-![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg)
-
 # leetcode 徽标 
 
 
@@ -13,18 +11,19 @@
 
 - [leetcode 徽标](#leetcode-徽标)
   - [快速开始](#快速开始)
-  - [徽标](#徽标)
+  - [使用](#使用)
+    - [做题记录](#做题记录)
     - [用户名](#用户名)
     - [排名](#排名)
     - [通过题目数/总题目数](#通过题目数总题目数)
     - [通过题目数/总题目数 比例](#通过题目数总题目数-比例)
     - [通过提交/总提交](#通过提交总提交)
     - [通过提交/总提交 比例](#通过提交总提交-比例)
-    - [自定义](#自定义)
-  - [图表](#图表)
-    - [做题记录](#做题记录)
+    - [关注数](#关注数)
+    - [被关注数](#被关注数)
     - [排名记录图表](#排名记录图表)
     - [答题数量图表](#答题数量图表)
+  - [自定义](#自定义)
   - [致谢](#致谢)
   - [JetBrains 开源证书支持](#jetbrains-开源证书支持)
 
@@ -36,7 +35,27 @@
 1. 获取 `{LeetCode_ID}`，根据 LeetCode 获取自己的`{LeetCode_ID}`。例如 [https://leetcode.com/haozibi](https://leetcode.com/haozibi) 的 `{LeetCode_ID}` 为 **haozibi**
 2. 替换 `{LeetCode_ID}`，根据自己的需求替换下面 URL 中的 `{LeetCode_ID}`
 
-## 徽标
+## 使用
+
+### 做题记录
+
+![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg?type=past-year&color=yellow`
+
+参数
+
+- type: 范围
+  - 默认: 今年
+  - past-year: 过去一年
+- color: 颜色
+  - green(默认)
+  - yellow
+  - blue
+
+注意事项:
+
+1. 暂时只支持中国区
+2. 只有开启了 LeetCode 的 **`设置-通知与隐私-显示我的提交记录`** 选项才支持此功能
 
 ### 用户名
 
@@ -75,41 +94,19 @@
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/accepted-rate/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/accepted-rate/{LeetCode_ID}.svg`
 
-### 自定义
+### 关注数
 
-此项目依托 [shields.io](https://shields.io)，支持所有 shields 的 Query 参数
+*只有中国区可使用*
 
-例如：
+- ![](https://leetcode-badge.haozibi.dev/v1cn/badge/following/haozibi.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/badge/following/{LeetCode_ID}.svg`
 
-- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode`
-- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode`
-- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode`
+### 被关注数
 
-更多 logo 可以查看 [simpleicons.org](https://simpleicons.org/) 或者 [https://github.com/simple-icons/simple-icons/blob/develop/slugs.md](https://github.com/simple-icons/simple-icons/blob/develop/slugs.md)
+*只有中国区可使用*
 
-
-## 图表
-
-### 做题记录
-
-![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg)
-- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg?type=past-year&color=yellow`
-
-参数
-
-- type: 范围
-  - 默认: 今年
-  - past-year: 过去一年
-- color: 颜色
-  - green(默认)
-  - yellow
-  - blue
-
-注意事项:
-
-1. 暂时只支持中国区
-2. 只有开启了 LeetCode 的 **`设置-通知与隐私-显示我的提交记录`** 选项才支持此功能
-
+- ![](https://leetcode-badge.haozibi.dev/v1cn/badge/followers/haozibi.svg)
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/badge/followers/{LeetCode_ID}.svg`
 
 ### 排名记录图表
 
@@ -132,6 +129,18 @@
 支持 `day` 参数，指定查询天数，最大查询日期为 30 天
 
 例如: 查询之前 15 天的数据，https://leetcode-badge.haozibi.dev/v1cn/chart/solved/haozibi.svg?day=15
+
+## 自定义
+
+此项目依托 [shields.io](https://shields.io)，支持所有 shields 的 Query 参数
+
+例如：
+
+- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?logo=leetcode`
+- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?color=ff5983&logo=leetcode`
+- ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode`
+
+更多 logo 可以查看 [simpleicons.org](https://simpleicons.org/) 或者 [https://github.com/simple-icons/simple-icons/blob/develop/slugs.md](https://github.com/simple-icons/simple-icons/blob/develop/slugs.md)
 
 ## 致谢
 
