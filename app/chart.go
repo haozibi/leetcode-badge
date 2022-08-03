@@ -171,7 +171,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 		return body, nil
 	}
 
-	reqKey := "subcal_" + name
+	reqKey := "subcal_" + name + "_" + query
 	fn := func() (interface{}, error) {
 		// now := time.Now().Year()
 		data, err := leetcode.GetSubCal(name)
