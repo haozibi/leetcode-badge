@@ -154,11 +154,14 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 		err   error
 	)
 
-	var f func(data map[int64]int) ([]byte, error)
+	var f func(data map[int64]int, color string) ([]byte, error)
+
 	t := r.URL.Query().Get("type")
+	color := r.URL.Query().Get("color")
+
 	switch t {
-	case "last-year":
-		f = heatmap.LastYear
+	case "past-year":
+		f = heatmap.PastYear
 	default:
 		f = heatmap.CurrYear
 	}
@@ -191,7 +194,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 			res[i] = v
 		}
 
-		body, err = f(res)
+		body, err = f(res, color)
 		if err != nil {
 			return nil, err
 		}

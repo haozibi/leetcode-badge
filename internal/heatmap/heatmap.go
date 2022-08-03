@@ -121,10 +121,7 @@ func (c *CalendarHeatmap) Generate(dateFrom, dateTo Date, data map[Date]int) *by
 	}
 
 	// draw svg
-	size := weeks
-	for i := 0; i < months; i++ {
-		size += months * c.Config.MonthSpace
-	}
+	size := weeks + months*c.Config.MonthSpace
 	canvasPos := c.getPosition(size, days)
 	canvas.Start(canvasPos.X, canvasPos.Y)
 

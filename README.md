@@ -40,12 +40,17 @@
 ### 做题记录
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg)
-- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/{LeetCode_ID}.svg?type=past-year&color=yellow`
 
 参数
 
-- `?type=last-year`: 过去一年
-- `?`: 默认为 今年
+- type: 范围
+  - 默认: 今年
+  - past-year: 过去一年
+- color: 颜色
+  - green(默认)
+  - yellow
+  - blue
 
 注意事项:
 
