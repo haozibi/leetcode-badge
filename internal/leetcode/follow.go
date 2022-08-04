@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/pkg/errors"
+
+	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
 )
 
 type FollowInfo struct {
@@ -29,7 +31,7 @@ func GetFollow(name string) (*FollowInfo, error) {
 		return fmt.Sprintf("{\n    \"operationName\": \"followCounts\",\n    \"variables\": {\n        \"userSlug\": \"" + name + "\"\n    },\n    \"query\": \"query followCounts($userSlug: String!) {\\n  followers(userSlug: $userSlug) {\\n    allNum\\n     }\\n  followingEntities(userSlug: $userSlug) {\\n    allNum\\n    }\\n}\\n\"\n}")
 	}
 
-	if err := Send(client, uri, method, query(name), &p); err != nil {
+	if err := leetcodecn.Send(client, uri, method, query(name), &p); err != nil {
 		return nil, err
 	}
 

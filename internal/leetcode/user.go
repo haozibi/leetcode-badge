@@ -4,64 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/pkg/errors"
+	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
+	"github.com/haozibi/leetcode-badge/internal/models"
 )
 
-// GetUserProfile get user profile by request leetcode
-func GetUserProfile(userName string, isCN bool) (*UserProfile, error) {
-
-	if userName == "" {
-		return nil, errors.New("name is nil")
-	}
-
-	if isCN {
-		return getCNUserProfile(userName)
-	}
-	return getUserProfile(userName)
-}
-
-func getCNUserProfile(name string) (*UserProfile, error) {
-
-	var (
-		uri    = "https://leetcode-cn.com/graphql"
-		method = http.MethodPost
-		client = http.DefaultClient
-		p      = LeetCodeUserProfile{}
-	)
-
-	var query = func(userName string) string {
-		s := fmt.Sprintf("{\"operationName\":\"userPublicProfile\",\"variables\":{\"userSlug\":\"%s\"},\"query\":\"query userPublicProfile($userSlug: String!) {\\nuserProfilePublicProfile(userSlug: $userSlug) {\\nusername\\nhaveFollowed\\nsiteRanking\\nprofile {\\nuserSlug\\nrealName\\nuserAvatar\\nlocation\\ncontestCount\\nasciiCode\\n__typename\\n}\\n submissionProgress {\\ntotalSubmissions\\nwaSubmissions\\nacSubmissions\\nreSubmissions\\notherSubmissions\\nacTotal\\nquestionTotal\\n__typename\\n}\\n__typename\\n}\\n}\\n\"}", userName)
-		return s
-	}
-
-	if err := Send(client, uri, method, query(name), &p); err != nil {
-		return nil, err
-	}
-
-	if p.UserProfilePublicProfile.Username == "" {
-		return nil, nil
-	}
-
-	pp := p.UserProfilePublicProfile
-	userProfile := &UserProfile{
-		UserSlug:         pp.Profile.UserSlug,
-		RealName:         pp.Profile.RealName,
-		UserAvatar:       pp.Profile.UserAvatar,
-		SiteRanking:      pp.SiteRanking,
-		TotalSubmissions: pp.SubmissionProgress.TotalSubmissions,
-		AcSubmissions:    pp.SubmissionProgress.AcSubmissions,
-		WaSubmissions:    pp.SubmissionProgress.WaSubmissions,
-		ReSubmissions:    pp.SubmissionProgress.ReSubmissions,
-		OtherSubmissions: pp.SubmissionProgress.OtherSubmissions,
-		AcTotal:          pp.SubmissionProgress.AcTotal,
-		QuestionTotal:    pp.SubmissionProgress.QuestionTotal,
-	}
-
-	return userProfile, nil
-}
-
-// 部分数据不全
-func getUserProfile(userName string) (*UserProfile, error) {
+// GetUserProfile 部分数据不全
+func GetUserProfile(userName string) (*models.UserProfile, error) {
 
 	var (
 		uri    = "https://leetcode.com/graphql"
@@ -77,7 +25,7 @@ func getUserProfile(userName string) (*UserProfile, error) {
 		return s
 	}
 
-	if err := Send(client, uri, method, genQueryJSON(userName), &p); err != nil {
+	if err := leetcodecn.Send(client, uri, method, genQueryJSON(userName), &p); err != nil {
 		return nil, err
 	}
 
@@ -86,7 +34,7 @@ func getUserProfile(userName string) (*UserProfile, error) {
 	}
 
 	pp := p.MatchedUser
-	userProfile := &UserProfile{
+	userProfile := &models.UserProfile{
 		RealName:    pp.Profile.RealName,
 		UserSlug:    fmt.Sprintf("%s", userName),
 		UserAvatar:  pp.Profile.UserAvatar,

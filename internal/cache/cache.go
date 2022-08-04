@@ -6,6 +6,7 @@ import (
 	gocache "github.com/patrickmn/go-cache"
 
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 )
 
@@ -18,8 +19,8 @@ const (
 
 // Cache cache
 type Cache interface {
-	GetUserProfile(name string, isCN bool) (*leetcode.UserProfile, error)
-	SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile, timeout time.Duration) error
+	GetUserProfile(name string, isCN bool) (*models.UserProfile, error)
+	SaveUserProfile(name string, isCN bool, value *models.UserProfile, timeout time.Duration) error
 
 	GetFollow(name string, isCN bool) (*leetcode.FollowInfo, error)
 	SaveFollow(name string, isCN bool, value *leetcode.FollowInfo, timeout time.Duration) error

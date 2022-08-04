@@ -13,3 +13,8 @@ func TestZeroTime(t *testing.T) {
 	day := ZeroTime(now.AddDate(0, 0, -7))
 	fmt.Println(day.Unix())
 }
+
+type A struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}

@@ -17,4 +17,9 @@
     - [x] 精简路由
     - [x] 替换非必须包
 - [x] 注册新域名、新部署
+- [x] ~~使用 UserQuestionProcess 替代 UserProfile~~
+  - ~~原因: 现在 lc 显示的是 UserQuestionProcess~~
+  - 保持原样
 - 增加 新功能（卡片）
+  - [ ] easy、medium、hard 分别做题
+  - [ ] 竞赛

@@ -9,6 +9,7 @@ import (
 
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 )
 
@@ -16,24 +17,23 @@ type memoryCache struct {
 	store *gocache.Cache
 }
 
-// New new
 func New() cache.Cache {
 	return &memoryCache{
 		store: gocache.New(5*time.Minute, 10*time.Minute),
 	}
 }
 
-func (m *memoryCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProfile, error) {
+func (m *memoryCache) GetUserProfile(name string, isCN bool) (*models.UserProfile, error) {
 
 	name = userProfileKey(name, isCN)
 
 	if x, found := m.store.Get(name); found {
-		return x.(*leetcode.UserProfile), nil
+		return x.(*models.UserProfile), nil
 	}
 	return nil, errors.New("not found")
 }
 
-func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile, timeout time.Duration) error {
+func (m *memoryCache) SaveUserProfile(name string, isCN bool, value *models.UserProfile, timeout time.Duration) error {
 
 	name = userProfileKey(name, isCN)
 

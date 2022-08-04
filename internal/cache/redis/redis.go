@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/haozibi/leetcode-badge/internal/cache"
-	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 )
 
@@ -19,7 +19,6 @@ type redisCache struct {
 	client *redis.Client
 }
 
-// New new redis
 func New(addr string, password string) (cache.Cache, error) {
 
 	if addr == "" {
@@ -38,16 +37,18 @@ func New(addr string, password string) (cache.Cache, error) {
 		return nil, errors.Wrap(err, "link redis")
 	}
 
-	return &redisCache{
-		client: client,
-	}, nil
+	//return &redisCache{
+	//	client: client,
+	//}, nil
+
+	return nil, nil
 }
 
 func userProfileKey(name string, isCN bool) string {
 	return "user_profile:" + name + ":" + strconv.FormatBool(isCN)
 }
 
-func (m *redisCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProfile, error) {
+func (m *redisCache) GetUserProfile(name string, isCN bool) (*models.UserProfile, error) {
 
 	name = userProfileKey(name, isCN)
 
@@ -56,13 +57,13 @@ func (m *redisCache) GetUserProfile(name string, isCN bool) (*leetcode.UserProfi
 		return nil, errors.Wrap(err, "redis get")
 	}
 
-	var p *leetcode.UserProfile
+	var p *models.UserProfile
 
 	err = gobDeValue([]byte(v), &p)
 	return p, errors.Wrap(err, "redis get user profile")
 }
 
-func (m *redisCache) SaveUserProfile(name string, isCN bool, value *leetcode.UserProfile, timeout time.Duration) error {
+func (m *redisCache) SaveUserProfile(name string, isCN bool, value *models.UserProfile, timeout time.Duration) error {
 
 	name = userProfileKey(name, isCN)
 

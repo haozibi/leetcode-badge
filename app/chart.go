@@ -12,7 +12,7 @@ import (
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
 	"github.com/haozibi/leetcode-badge/internal/heatmap"
-	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
 	"github.com/haozibi/leetcode-badge/internal/statics"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 )
@@ -174,7 +174,7 @@ func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
 	reqKey := "subcal_" + name + "_" + query
 	fn := func() (interface{}, error) {
 		// now := time.Now().Year()
-		data, err := leetcode.GetSubCal(name)
+		data, err := leetcodecn.GetSubCal(name)
 		if err != nil {
 			return nil, err
 		}

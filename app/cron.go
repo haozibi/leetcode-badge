@@ -10,6 +10,8 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
+	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/tools"
 )
@@ -103,7 +105,15 @@ func (a *APP) updateHistory(name string, isCN bool) error {
 
 	// TODO: 更优化的方法，避免 429 错误
 	time.Sleep(100*time.Millisecond + time.Duration(rand.Intn(100))*time.Millisecond)
-	info, err := leetcode.GetUserProfile(name, isCN)
+	var (
+		info *models.UserProfile
+		err  error
+	)
+	if isCN {
+		info, err = leetcodecn.GetUserProfile(name)
+	} else {
+		info, err = leetcode.GetUserProfile(name)
+	}
 	if err != nil {
 		return err
 	}

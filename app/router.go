@@ -24,40 +24,40 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 
 		isCN := k == 0
 
-		// 排名
+		// [basic] 排名
 		api.Methods(http.MethodGet).Path("/ranking/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeRanking, isCN)),
 		)
 
-		// 通过的题目/问题总数
+		// [basic] 通过的题目/问题总数
 		api.Methods(http.MethodGet).Path("/solved/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeSolved, isCN)),
 		)
 
-		// 通过的题目/问题总数 rate
+		// [basic] 通过的题目/问题总数 rate
 		api.Methods(http.MethodGet).Path("/solved-rate/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeSolvedRate, isCN)),
 		)
 
-		// 通过提交/提交的总数
+		// [basic] 通过提交/提交的总数
 		api.Methods(http.MethodGet).Path("/accepted/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeAccepted, isCN)),
 		)
 
-		// 通过提交/提交的总数 rate
+		// [basic] 通过提交/提交的总数 rate
 		api.Methods(http.MethodGet).Path("/accepted-rate/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeAcceptedRate, isCN)),
 		)
 
-		// [badge] 关注
-		api.Methods(http.MethodGet).Path("/badge/following/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowing, isCN)),
-		)
-
-		// [badge] 被关注数
-		api.Methods(http.MethodGet).Path("/badge/followers/{name:.+}.svg").Handler(
-			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowers, isCN)),
-		)
+		// // [badge] 关注
+		// api.Methods(http.MethodGet).Path("/badge/following/{name:.+}.svg").Handler(
+		// 	handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowing, isCN)),
+		// )
+		//
+		// // [badge] 被关注数
+		// api.Methods(http.MethodGet).Path("/badge/followers/{name:.+}.svg").Handler(
+		// 	handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeFollowers, isCN)),
+		// )
 
 		// [chart] 排名记录图表
 		api.Methods(http.MethodGet).Path("/chart/ranking/{name:.+}.svg").Handler(
@@ -74,7 +74,7 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeChartSubmissionCalendar, isCN)),
 		)
 
-		// 获得个人信息
+		// [basic] 获得个人信息
 		api.Methods(http.MethodGet).Path("/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeProfile, isCN)),
 		)
@@ -91,8 +91,8 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 		f = a.Basic
 	case BadgeTypeChartRanking, BadgeTypeChartSolved:
 		f = a.Chart
-	case BadgeTypeFollowing, BadgeTypeFollowers:
-		f = a.Badge
+	// case BadgeTypeFollowing, BadgeTypeFollowers:
+	// 	f = a.Badge
 	case BadgeTypeChartSubmissionCalendar:
 		f = a.SubCal
 	}

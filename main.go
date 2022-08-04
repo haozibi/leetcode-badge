@@ -2,7 +2,9 @@ package main
 
 import (
 	"io"
+	"math/rand"
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -26,6 +28,8 @@ func New(w io.Writer) {
 }
 
 func main() {
+	rand.Seed(time.Now().Unix())
 	New(os.Stdout)
+
 	cmd.Execute()
 }

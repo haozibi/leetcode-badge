@@ -10,6 +10,8 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/leetcode"
+	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
+	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/shield"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/tools"
@@ -24,9 +26,9 @@ func buildLeetCodeKey(name string, isCN bool) string {
 	return name + "_" + strconv.Itoa(tools.BoolToInt(isCN))
 }
 
-func (a *APP) getUserProfile(name string, isCN bool) (*leetcode.UserProfile, error) {
+func (a *APP) getUserProfile(name string, isCN bool) (*models.UserProfile, error) {
 
-	var info *leetcode.UserProfile
+	var info *models.UserProfile
 	var err error
 
 	info, err = a.cache.GetUserProfile(name, isCN)
@@ -37,13 +39,17 @@ func (a *APP) getUserProfile(name string, isCN bool) (*leetcode.UserProfile, err
 	key := buildLeetCodeKey(name, isCN)
 
 	fn := func() (interface{}, error) {
-		info, err = leetcode.GetUserProfile(name, isCN)
+		if isCN {
+			info, err = leetcodecn.GetUserProfile(name)
+		} else {
+			info, err = leetcode.GetUserProfile(name)
+		}
 		if err != nil {
 			return nil, err
 		}
 
 		if info == nil {
-			info = new(leetcode.UserProfile)
+			info = new(models.UserProfile)
 		}
 
 		err = a.cache.SaveUserProfile(name, isCN, info, 5*time.Minute)
@@ -67,11 +73,11 @@ func (a *APP) getUserProfile(name string, isCN bool) (*leetcode.UserProfile, err
 		return nil, err
 	}
 
-	return result.(*leetcode.UserProfile), nil
+	return result.(*models.UserProfile), nil
 }
 
 // basicBadge 根据信息获取 badge
-func (a *APP) basicBadge(value url.Values, isCN bool, typeName BadgeType, info *leetcode.UserProfile) ([]byte, error) {
+func (a *APP) basicBadge(value url.Values, isCN bool, typeName BadgeType, info *models.UserProfile) ([]byte, error) {
 
 	var key, left, right string
 
@@ -133,7 +139,7 @@ func (a *APP) getBadge(value url.Values, key, left, right string, color string) 
 	return badgeBody, nil
 }
 
-func (a *APP) saveUser(info *leetcode.UserProfile, isCN bool) error {
+func (a *APP) saveUser(info *models.UserProfile, isCN bool) error {
 	if info == nil || info.UserSlug == "" {
 		return nil
 	}
