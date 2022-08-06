@@ -1,14 +1,72 @@
 package card
 
-func Build() ([]byte, error) {
-	return nil, nil
+import (
+	"bytes"
+	"embed"
+	"text/template"
+
+	"github.com/pkg/errors"
+
+	"github.com/haozibi/leetcode-badge/internal/models"
+)
+
+// go:embed template
+var fs embed.FS
+
+func Build(data *models.UserQuestionPrecess) ([]byte, error) {
+	var (
+		baseLen = 215
+	)
+
+	getLen := func(num, total int) int {
+		return int(float64(baseLen) * (float64(num) / float64(total)))
+	}
+
+	info := Info{
+		BaseLen:   baseLen,
+		EasyLen:   getLen(data.Easy.AcceptedNum, data.Easy.TotalNum),
+		MediumLen: getLen(data.Medium.AcceptedNum, data.Medium.TotalNum),
+		HardLen:   getLen(data.Hard.AcceptedNum, data.Hard.TotalNum),
+
+		EasyNum:     data.Easy.AcceptedNum,
+		EasyTotal:   data.Easy.TotalNum,
+		MediumNum:   data.Medium.AcceptedNum,
+		MediumTotal: data.Medium.TotalNum,
+		HardNum:     data.Hard.AcceptedNum,
+		HardTotal:   data.Hard.TotalNum,
+
+		AcceptNum: data.Overview.AcceptedNum,
+	}
+
+	t, err := template.ParseFiles("internal/card/template/question_process.svg")
+	// t, err := template.ParseFS(fs, "internal/card/template/question_process.svg")
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	buf := bytes.NewBuffer(nil)
+	err = t.Execute(buf, info)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	return buf.Bytes(), nil
 }
 
 type Info struct {
-	Easy       int
-	EasyTotal  int
-	Media      int
-	MediaTotal int
-	Hard       int
-	HardTotal  int
+	// 长度
+	BaseLen   int
+	EasyLen   int
+	MediumLen int
+	HardLen   int
+
+	// 数量
+	EasyNum     int
+	EasyTotal   int
+	MediumNum   int
+	MediumTotal int
+	HardNum     int
+	HardTotal   int
+
+	AcceptNum int
 }

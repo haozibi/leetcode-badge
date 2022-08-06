@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/haozibi/leetcode-badge/internal/statics"
 	"github.com/rs/zerolog/log"
 )
 
@@ -63,6 +64,55 @@ func (a *APP) Basic(badgeType BadgeType, name string, isCN bool, w http.Response
 			Bool("IsCN", isCN).
 			Msg("get badge error")
 		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	a.write(w, body)
+}
+
+// SubCal SubmissionCalendar
+func (a *APP) SubCal(_ BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
+	if !isCN {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("404 not found"))
+		return
+	}
+
+	body, err := a.getSubCal(name, r)
+	if err != nil {
+		if err == ErrUserNotSupport {
+			a.write(w, statics.SVGNotFound())
+		} else {
+			log.Err(err).
+				Str("Name", name).
+				Bool("IsCN", isCN).
+				Msg("get subcal error")
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
+	a.write(w, body)
+}
+
+func (a *APP) Card(badgeType BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
+	if !isCN {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("404 not found"))
+		return
+	}
+
+	body, err := a.getCard(badgeType, name, r)
+	if err != nil {
+		if err == ErrUserNotSupport {
+			a.write(w, statics.SVGNotFound())
+		} else {
+			log.Err(err).
+				Str("Name", name).
+				Bool("IsCN", isCN).
+				Msg("get subcal error")
+			w.WriteHeader(http.StatusInternalServerError)
+		}
 		return
 	}
 

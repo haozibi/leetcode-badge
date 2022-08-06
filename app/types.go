@@ -17,6 +17,7 @@ const (
 	BadgeTypeChartRanking
 	BadgeTypeChartSolved
 	BadgeTypeChartSubmissionCalendar
+	BadgeTypeQuestionProcessCard
 )
 
 func (b BadgeType) String() string {
@@ -45,6 +46,8 @@ func (b BadgeType) String() string {
 		return "followers"
 	case BadgeTypeChartSubmissionCalendar:
 		return "submission-calendar"
+	case BadgeTypeQuestionProcessCard:
+		return "question_process_card"
 	}
 
 	return ""

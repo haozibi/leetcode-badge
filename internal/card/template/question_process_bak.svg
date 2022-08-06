@@ -1,0 +1,20 @@
+<svg width="410.00000000000006" height="187" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <ellipse ry="45" rx="45" id="svg_2" cy="105" cx="80" stroke="#DBDBDB" stroke-width="2" fill="#fff"/>
+  <rect id="svg_4" height="4" width="215" y="60" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#DEF3E4"/>
+  <rect id="svg_6" height="4" width="215" y="108" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#FFF3D9"/>
+  <rect id="svg_7" height="4" width="215" y="156" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#FDE2E3"/>
+  <rect id="svg_41" height="4" width="20" y="60" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#0CA690"/>
+  <rect id="svg_61" height="4" width="20" y="108" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#F8AA00"/>
+  <rect id="svg_71" height="4" width="20" y="156" x="165" ry="2" rx="2" stroke="#000" stroke-width="0" fill="#EC3F3B"/>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="10" id="svg_10" y="50" x="165" stroke-width="0" stroke="#000" fill="#000000">简单 500/900</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="10" id="svg_11" y="99" x="165" stroke-width="0" stroke="#000" fill="#000000">中等 500/900</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="10" id="svg_12" y="146" x="165" stroke-width="0" stroke="#000" fill="#000000">困难 500/900</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="10" id="svg_13" y="43" x="12" stroke-width="0" stroke="#000" fill="#85868A">解题数量</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="18" id="svg_14" y="105" x="62.6056" stroke-width="0" stroke="#000" fill="#000000">258</text>
+  <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="10" id="svg_15" y="121" x="59.22532" stroke-width="0" stroke="#000" fill="#000000">解决问题</text>
+  <text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="13" id="svg_1" y="20.42862" x="12" stroke-width="0" stroke="#000" fill="#000000">LeetCode</text>
+  <text font-style="italic" transform="matrix(1.8544 0 0 2.24548 -12.3497 2.36417)" stroke="#000" xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="3" id="svg_9" y="79.27464" x="11.66095" stroke-width="0" fill="#000000">https://github.com/haozibi/leetcode-badge</text>
+ </g>
+
+</svg>

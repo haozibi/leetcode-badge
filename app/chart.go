@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog/log"
 
 	"github.com/haozibi/leetcode-badge/internal/chart"
 	"github.com/haozibi/leetcode-badge/internal/heatmap"
@@ -119,31 +118,6 @@ func (a *APP) getHistoryList(name string, isCN bool, start, end time.Time) ([]st
 	}
 
 	return result.([]storage.HistoryRecord), nil
-}
-
-// SubCal SubmissionCalendar
-func (a *APP) SubCal(_ BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
-	if !isCN {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte("404 not found"))
-		return
-	}
-
-	body, err := a.getSubCal(name, r)
-	if err != nil {
-		if err == ErrUserNotSupport {
-			a.write(w, statics.SVGNotFound())
-		} else {
-			log.Err(err).
-				Str("Name", name).
-				Bool("IsCN", isCN).
-				Msg("get subcal error")
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		return
-	}
-
-	a.write(w, body)
 }
 
 func (a *APP) getSubCal(name string, r *http.Request) ([]byte, error) {
