@@ -15,6 +15,10 @@ func SVGNotFound() []byte {
 	return readBody("svg/notfound.svg")
 }
 
+func TemplateQuestionProcess() []byte {
+	return readBody("template/question_process.svg")
+}
+
 func TTF() []byte {
 	return readBody("charts/Sunflower-Medium.ttf")
 }

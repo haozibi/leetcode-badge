@@ -2,16 +2,13 @@ package card
 
 import (
 	"bytes"
-	"embed"
 	"text/template"
 
 	"github.com/pkg/errors"
 
 	"github.com/haozibi/leetcode-badge/internal/models"
+	"github.com/haozibi/leetcode-badge/internal/statics"
 )
-
-// go:embed template
-var fs embed.FS
 
 func Build(data *models.UserQuestionPrecess) ([]byte, error) {
 	var (
@@ -38,8 +35,7 @@ func Build(data *models.UserQuestionPrecess) ([]byte, error) {
 		AcceptNum: data.Overview.AcceptedNum,
 	}
 
-	t, err := template.ParseFiles("internal/card/template/question_process.svg")
-	// t, err := template.ParseFS(fs, "internal/card/template/question_process.svg")
+	t, err := template.New("foo").Parse(string(statics.TemplateQuestionProcess()))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
