@@ -1,0 +1,42 @@
+<svg width="410" height="187" xmlns="http://www.w3.org/2000/svg">
+
+    <g>
+        <ellipse fill="#fff" stroke-width="2" stroke="#DBDBDB" cx="80" cy="105" id="svg_2" rx="45" ry="45" />
+        <text fill="#85868A" stroke="#000" stroke-width="0" x="12" y="43" id="svg_13" font-size="10"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve" font-weight="bold">竞赛详情</text>
+        <text fill="#000000" stroke="#000" stroke-width="0" x="60.03418" y="104.71429" id="svg_14" font-size="18"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve" font-weight="bold">{{ .Top }}</text>
+        <text fill="#000000" stroke="#000" stroke-width="0" x="59.22532" y="121" id="svg_15" font-size="10"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">击败用户</text>
+
+        <text fill="gray" stroke="#000" stroke-width="0" x="258.06349" y="43.44076" id="svg_10" font-size="10"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">竞赛分数</text>
+        <text fill="#006FFF" stroke="#000" stroke-width="0" x="253.03009" y="77.10663" id="svg_16" font-size="25"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">{{ .Rating }}</text>
+
+
+        <text fill="gray" stroke="#000" stroke-width="0" x="196.63515" y="94.44398" id="svg_5" font-size="10"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">全球排名</text>
+        <text font-weight="bold" fill="#2f96e3" stroke="#000" stroke-width="0" x="150.48946" y="124.00618" id="svg_12"
+            font-size="17" font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">{{ .GlobalRanking }}</text>
+        <text fill="#000" stroke="#000" stroke-width="0" x="211.76577" y="123.58065" id="svg_17" font-size="15"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">{{ .GlobalTotal }}</text>
+
+        <text fill="gray" stroke="#000" stroke-width="0" x="318.49487" y="113.59576" id="svg_6" font-size="10"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">全国排名</text>
+
+        <text font-weight="bold" fill="#2f96e3" stroke="#000" stroke-width="0" x="273.89315" y="146.57447" id="svg_18"
+            font-size="17" font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">{{ .LocalRanking }}</text>
+        <text fill="#000" stroke="#000" stroke-width="0" x="333.77139" y="146.70212" id="svg_11" font-size="15"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve">{{ .LocalTotal}}</text>
+
+
+
+        <text fill="#000000" stroke="#000" stroke-width="0" x="12" y="20.42862" id="svg_1" font-size="13"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve" font-weight="bold">{{ .Name }}&apos;s LeetCode</text>
+        <text fill="#000000" stroke-width="0" x="11.66095" y="79.27464" id="svg_9" font-size="3"
+            font-family="SegoeUI, Segoe UI" text-anchor="start" xml:space="preserve" stroke="#000"
+            transform="matrix(1.8544 0 0 2.24548 -12.3497 2.36417)"
+            font-style="italic">https://github.com/haozibi/leetcode-badge</text>
+    </g>
+</svg>

@@ -19,6 +19,10 @@ func TemplateQuestionProcess() []byte {
 	return readBody("template/question_process.svg")
 }
 
+func TemplateContestRanking() []byte {
+	return readBody("template/contest_ranking.svg")
+}
+
 func TTF() []byte {
 	return readBody("charts/Sunflower-Medium.ttf")
 }

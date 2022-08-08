@@ -78,6 +78,11 @@ func Router(r *mux.Router, a *APP, w io.Writer) {
 		api.Methods(http.MethodGet).Path("/card/question-process/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeQuestionProcessCard, isCN)),
 		)
+
+		// [card] 竞赛信息 todo: 美化
+		api.Methods(http.MethodGet).Path("/card/contest-ranking/{name:.+}.svg").Handler(
+			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeContestRankingCard, isCN)),
+		)
 		// [basic] 获得个人信息
 		api.Methods(http.MethodGet).Path("/{name:.+}.svg").Handler(
 			handlers.CombinedLoggingHandler(w, a.HandlerFunc(BadgeTypeProfile, isCN)),
@@ -99,7 +104,7 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 	// 	f = a.Badge
 	case BadgeTypeChartSubmissionCalendar:
 		f = a.SubCal
-	case BadgeTypeQuestionProcessCard:
+	case BadgeTypeQuestionProcessCard, BadgeTypeContestRankingCard:
 		f = a.Card
 	}
 

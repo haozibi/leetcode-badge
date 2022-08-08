@@ -15,6 +15,8 @@ func (a *APP) getCard(badgeType BadgeType, name string, r *http.Request) ([]byte
 	switch badgeType {
 	case BadgeTypeQuestionProcessCard:
 		f = a.getQuestionProcess
+	case BadgeTypeContestRankingCard:
+		f = a.getContestRankingInfo
 	default:
 		return nil, errors.Errorf("not found card function")
 	}
@@ -54,6 +56,20 @@ func (a *APP) getQuestionProcess(name string, r *http.Request) ([]byte, error) {
 		return nil, ErrUserNotSupport
 	}
 
-	body, err := card.Build(data)
+	body, err := card.QuestionProcess(name, data)
+	return body, err
+}
+
+func (a *APP) getContestRankingInfo(name string, r *http.Request) ([]byte, error) {
+	data, err := leetcodecn.GetUserContestRankingInfo(name)
+	if err != nil {
+		return nil, err
+
+	}
+	if data == nil {
+		return nil, ErrUserNotSupport
+	}
+
+	body, err := card.ContestRanking(name, data)
 	return body, err
 }

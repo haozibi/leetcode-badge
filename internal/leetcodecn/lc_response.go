@@ -79,3 +79,37 @@ type LCSubmissionProgress struct {
 	QuestionTotal    int    `json:"questionTotal"`
 	Typename         string `json:"__typename"`
 }
+
+// user contest info
+
+type LCUserContestRanking struct {
+	AttendedContestsCount   int     `json:"attendedContestsCount"`
+	Rating                  float64 `json:"rating"`
+	GlobalRanking           int     `json:"globalRanking"`
+	LocalRanking            int     `json:"localRanking"`
+	GlobalTotalParticipants int     `json:"globalTotalParticipants"`
+	LocalTotalParticipants  int     `json:"localTotalParticipants"`
+	TopPercentage           float64 `json:"topPercentage"`
+}
+
+// type LCContest struct {
+// 	Title     string `json:"title"`
+// 	TitleCn   string `json:"titleCn"`
+// 	StartTime int    `json:"startTime"`
+// }
+
+// type LCUserContestRankingHistory struct {
+// 	Attended            bool        `json:"attended"`
+// 	TotalProblems       int         `json:"totalProblems"`
+// 	TrendingDirection   string      `json:"trendingDirection"`
+// 	FinishTimeInSeconds int         `json:"finishTimeInSeconds"`
+// 	Rating              interface{} `json:"rating"`
+// 	Score               int         `json:"score"`
+// 	Ranking             int         `json:"ranking"`
+// 	Contest             LCContest   `json:"contest"`
+// }
+
+type LeetCodeUserContestRankingInfo struct {
+	UserContestRanking *LCUserContestRanking `json:"userContestRanking"`
+	// UserContestRankingHistory []LCUserContestRankingHistory `json:"userContestRankingHistory"`
+}

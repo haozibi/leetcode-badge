@@ -20,3 +20,17 @@ func TestGetUserQuestionProgress(t *testing.T) {
 		spew.Dump(p)
 	}
 }
+
+func TestGetUserContestRankingInfo(t *testing.T) {
+	names := []string{
+		"haozibi",
+		//"oooooooooooxxxxxx",
+		//"ac_oier",
+	}
+
+	for _, v := range names {
+		p, err := GetUserContestRankingInfo(v)
+		fmt.Println(err)
+		spew.Dump(p)
+	}
+}

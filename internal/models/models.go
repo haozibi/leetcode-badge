@@ -16,10 +16,10 @@ type UserProfile struct {
 }
 
 type UserQuestionProcessStat struct {
-	AcceptedNum  int
-	FailedNum    int
-	UntouchedNum int
-	TotalNum     int
+	AcceptedNum  int // ac 数量
+	FailedNum    int // 失败数量
+	UntouchedNum int // 没有尝试过的数量
+	TotalNum     int // 总共数量，即上面 3 者之和
 }
 
 type UserQuestionPrecess struct {
@@ -27,4 +27,14 @@ type UserQuestionPrecess struct {
 	Easy     UserQuestionProcessStat
 	Medium   UserQuestionProcessStat
 	Hard     UserQuestionProcessStat
+}
+
+type UserContestRankingInfo struct {
+	AttendedContestsCount   int     // 完赛数量
+	Rating                  float64 // 竞赛分数
+	GlobalRanking           int     // 全球排名
+	LocalRanking            int     // 全国排名
+	GlobalTotalParticipants int     // 全球总人数
+	LocalTotalParticipants  int     // 全国总人数
+	TopPercentage           float64 // 前 top
 }

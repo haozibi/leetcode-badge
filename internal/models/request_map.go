@@ -9,11 +9,13 @@ type RequestType int
 const (
 	RequestTypeUserProfile RequestType = iota + 1
 	RequestTypeUserQuestionProgress
+	RequestTypeUserContestRankingInfo
 )
 
 type RequestConfig struct {
 	Desc     string
 	URI      string
+	Method   string
 	Query    string
 	Response reflect.Type
 }

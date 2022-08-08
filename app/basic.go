@@ -128,15 +128,23 @@ func (a *APP) getBadge(value url.Values, key, left, right string, color string) 
 		return body, nil
 	}
 
-	badgeBody, err := shield.Badge(value, left, right, color)
+	fn := func() (interface{}, error) {
+		badgeBody, err := shield.Badge(value, left, right, color)
+		if err != nil {
+			return nil, err
+		}
+		if err = a.cache.SaveByteBody(key, badgeBody, 7*24*time.Hour); err != nil {
+			log.Err(err).Str("Key", key).Str("Left", left).Str("Right", right).Str("Color", color).Msg("save badge data error")
+		}
+		return badgeBody, err
+	}
+
+	result, err, _ := a.group.Do(key, fn)
 	if err != nil {
 		return nil, err
 	}
-	if err = a.cache.SaveByteBody(key, badgeBody, 7*24*time.Hour); err != nil {
-		log.Err(err).Str("Key", key).Str("Left", left).Str("Right", right).Str("Color", color).Msg("save badge data error")
-	}
 
-	return badgeBody, nil
+	return result.([]byte), nil
 }
 
 func (a *APP) saveUser(info *models.UserProfile, isCN bool) error {

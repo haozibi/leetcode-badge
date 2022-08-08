@@ -97,6 +97,27 @@ func GetUserProfile(name string) (*models.UserProfile, error) {
 	return userProfile, nil
 }
 
+func GetUserContestRankingInfo(name string) (*models.UserContestRankingInfo, error) {
+	ptr, err := Get(models.RequestTypeUserContestRankingInfo, name)
+	if err != nil {
+		return nil, err
+	}
+	p := ptr.(*LeetCodeUserContestRankingInfo)
+	if p.UserContestRanking == nil {
+		return nil, nil
+	}
+
+	return &models.UserContestRankingInfo{
+		AttendedContestsCount:   p.UserContestRanking.AttendedContestsCount,
+		Rating:                  p.UserContestRanking.Rating,
+		GlobalRanking:           p.UserContestRanking.GlobalRanking,
+		LocalRanking:            p.UserContestRanking.LocalRanking,
+		GlobalTotalParticipants: p.UserContestRanking.GlobalTotalParticipants,
+		LocalTotalParticipants:  p.UserContestRanking.LocalTotalParticipants,
+		TopPercentage:           p.UserContestRanking.TopPercentage,
+	}, nil
+}
+
 func Get(rt models.RequestType, name string) (any, error) {
 	if name == "" {
 		return nil, errors.Errorf("miss name")
@@ -111,7 +132,7 @@ func Get(rt models.RequestType, name string) (any, error) {
 
 	var (
 		uri    = cfg.URI
-		method = http.MethodPost
+		method = cfg.Method
 		client = http.DefaultClient
 		query  = fmt.Sprintf(cfg.Query, name)
 	)
