@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/pkg/errors"
+
 	"github.com/haozibi/leetcode-badge/internal/card"
 	"github.com/haozibi/leetcode-badge/internal/leetcodecn"
-	"github.com/pkg/errors"
 )
 
 func (a *APP) getCard(badgeType BadgeType, name string, r *http.Request) ([]byte, error) {

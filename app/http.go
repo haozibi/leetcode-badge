@@ -6,8 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/haozibi/leetcode-badge/internal/statics"
 	"github.com/rs/zerolog/log"
+
+	"github.com/haozibi/leetcode-badge/internal/statics"
 )
 
 func (a *APP) Badge(bt BadgeType, name string, isCN bool, w http.ResponseWriter, r *http.Request) {
