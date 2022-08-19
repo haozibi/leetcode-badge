@@ -20,17 +20,8 @@
 - [leetcode 徽标](#leetcode-徽标)
   - [快速开始](#快速开始)
   - [徽标](#徽标)
-    - [用户名](#用户名)
-    - [排名](#排名)
-    - [通过题目数/总题目数](#通过题目数总题目数)
-    - [通过题目数/总题目数 比例](#通过题目数总题目数-比例)
-    - [通过提交/总提交](#通过提交总提交)
-    - [通过提交/总提交 比例](#通过提交总提交-比例)
-    - [自定义](#自定义)
   - [图表](#图表)
-    - [做题记录](#做题记录)
-    - [排名记录图表](#排名记录图表)
-    - [答题数量图表](#答题数量图表)
+  - [卡片](#卡片)
   - [致谢](#致谢)
   - [JetBrains 开源证书支持](#jetbrains-开源证书支持)
 
@@ -44,11 +35,21 @@
 
 ## 徽标
 
+<details><summary>用户名</summary>
+<p>
+
 ### 用户名
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/haozibi.svg)
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/{LeetCode_ID}.svg`
+
+</p>
+</details>
+
+
+<details><summary>排名</summary>
+<p>
 
 ### 排名
 
@@ -56,30 +57,55 @@
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/ranking/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/ranking/{LeetCode_ID}.svg`
 
+</p>
+</details>
+
+<details><summary>通过题目数/总题目数</summary>
+<p>
 
 ### 通过题目数/总题目数
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/solved/haozibi.svg)
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/solved/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/solved/{LeetCode_ID}.svg`
+</p>
+</details>
+
+<details><summary>通过题目数/总题目数 比例</summary>
+<p>
 
 ### 通过题目数/总题目数 比例
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/solved-rate/haozibi.svg)
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/solved-rate/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/solved-rate/{LeetCode_ID}.svg`
+</p>
+</details>
+
+<details><summary>通过提交/总提交</summary>
+<p>
 
 ### 通过提交/总提交
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/accepted/haozibi.svg)
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/accepted/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/accepted/{LeetCode_ID}.svg`
+</p>
+</details>
+
+<details><summary>通过提交/总提交 比例</summary>
+<p>
 
 ### 通过提交/总提交 比例
 
 - ![](https://leetcode-badge.haozibi.dev/v1cn/accepted-rate/haozibi.svg)
 - LeetCode: `https://leetcode-badge.haozibi.dev/v1/accepted-rate/{LeetCode_ID}.svg`
 - LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/accepted-rate/{LeetCode_ID}.svg`
+</p>
+</details>
+
+<details><summary>自定义</summary>
+<p>
 
 ### 自定义
 
@@ -92,9 +118,14 @@
 - ![](https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode) `https://leetcode-badge.haozibi.dev/v1cn/ranking/haozibi.svg?style=for-the-badge&color=ff5983&logo=leetcode`
 
 更多 logo 可以查看 [simpleicons.org](https://simpleicons.org/) 或者 [https://github.com/simple-icons/simple-icons/blob/develop/slugs.md](https://github.com/simple-icons/simple-icons/blob/develop/slugs.md)
+</p>
+</details>
 
 
 ## 图表
+
+<details><summary>做题记录</summary>
+<p>
 
 ### 做题记录
 
@@ -115,7 +146,11 @@
 
 1. 暂时只支持中国区
 2. 只有开启了 LeetCode 的 **`设置-通知与隐私-显示我的提交记录`** 选项才支持此功能
+</p>
+</details>
 
+<details><summary>排名记录图表</summary>
+<p>
 
 ### 排名记录图表
 
@@ -127,6 +162,11 @@
 支持 `day` 参数，指定查询天数，最大查询日期为 30 天
 
 例如: 查询之前 15 天的数据，https://leetcode-badge.haozibi.dev/v1cn/chart/ranking/haozibi.svg?day=15
+</p>
+</details>
+
+<details><summary>答题数量图表</summary>
+<p>
 
 ### 答题数量图表
 
@@ -138,18 +178,43 @@
 支持 `day` 参数，指定查询天数，最大查询日期为 30 天
 
 例如: 查询之前 15 天的数据，https://leetcode-badge.haozibi.dev/v1cn/chart/solved/haozibi.svg?day=15
+</p>
+</details>
+
+
 
 ## 卡片
 
 *还需要对模版做美化*
 
+<details><summary>做题进度</summary>
+<p>
+
 ### 做题进度
+
+**只有中国区**
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/card/question-process/haozibi.svg)
 
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/solved/{LeetCode_ID}.svg`
+
+</p>
+</details>
+
+<details><summary>竞赛信息</summary>
+<p>
+
 ### 竞赛信息
 
+**只有中国区**
+
 ![](https://leetcode-badge.haozibi.dev/v1cn/card/contest-ranking/haozibi.svg)
+
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/solved/{LeetCode_ID}.svg`
+
+</p>
+</details>
+
 
 ## 致谢
 
