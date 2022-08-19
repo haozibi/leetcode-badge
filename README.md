@@ -139,6 +139,18 @@
 
 例如: 查询之前 15 天的数据，https://leetcode-badge.haozibi.dev/v1cn/chart/solved/haozibi.svg?day=15
 
+## 卡片
+
+*还需要对模版做美化*
+
+### 做题进度
+
+![](https://leetcode-badge.haozibi.dev/v1cn/card/question-process/haozibi.svg)
+
+### 竞赛信息
+
+![](https://leetcode-badge.haozibi.dev/v1cn/card/contest-ranking/haozibi.svg)
+
 ## 致谢
 
 - [Picas](https://github.com/djyde/Picas): logo 生成
