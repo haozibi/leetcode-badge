@@ -196,7 +196,7 @@
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/card/question-process/haozibi.svg)
 
-- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/solved/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/card/question-process/{LeetCode_ID}.svg`
 
 </p>
 </details>
@@ -210,7 +210,7 @@
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/card/contest-ranking/haozibi.svg)
 
-- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/chart/solved/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/card/contest-ranking/{LeetCode_ID}.svg`
 
 </p>
 </details>
