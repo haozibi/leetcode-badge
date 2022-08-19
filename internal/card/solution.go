@@ -51,7 +51,7 @@ func ContestRanking(name string, data *models.UserContestRankingInfo) ([]byte, e
 		LocalTotal:  fmt.Sprintf("/%d", data.LocalTotalParticipants),
 		GlobalTotal: fmt.Sprintf("/%d", data.GlobalTotalParticipants),
 
-		Top: fmt.Sprintf("%0.2f", 100.0-data.TopPercentage),
+		Top: fmt.Sprintf("%0.2f%%", 100.0-data.TopPercentage),
 	}
 	return build(statics.TemplateContestRanking(), info)
 }

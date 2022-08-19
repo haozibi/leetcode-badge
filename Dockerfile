@@ -1,6 +1,6 @@
 FROM haozibi/upx AS build-upx
 
-FROM golang:1.18.2-alpine3.16 AS build-env
+FROM golang:1.18.5-alpine3.16 AS build-env
 
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 

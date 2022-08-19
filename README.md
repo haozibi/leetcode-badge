@@ -6,6 +6,10 @@
 ![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg?type=past-year&color=yellow)
 ![](https://leetcode-badge.haozibi.dev/v1cn/chart/submission-calendar/haozibi.svg?type=past-year&color=blue)
 
+![](https://leetcode-badge.haozibi.dev/v1cn/card/question-process/haozibi.svg)
+![](https://leetcode-badge.haozibi.dev/v1cn/card/contest-ranking/haozibi.svg)
+
+
 # leetcode 徽标 
 
 

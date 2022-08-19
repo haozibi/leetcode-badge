@@ -21,5 +21,6 @@
   - ~~原因: 现在 lc 显示的是 UserQuestionProcess~~
   - 保持原样
 - 增加 新功能（卡片）
-  - [ ] easy、medium、hard 分别做题
-  - [ ] 竞赛
+  - [x] easy、medium、hard 分别做题
+  - [x] 竞赛
+  - [ ] 美化、多种样式
