@@ -119,6 +119,7 @@ func (a *APP) HandlerFunc(badgeType BadgeType, isCN bool) http.Handler {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
+		a.addUser(name, isCN)
 		f(badgeType, name, isCN, w, r)
 	})
 }

@@ -1,9 +1,10 @@
 package app
 
 type Config struct {
-	Address    string
-	SqlitePath string
-	EnableCron bool
+	Address      string
+	DebugAddress int
+	SqlitePath   string
+	EnableCron   bool
 }
 
 type RedisConfig struct {

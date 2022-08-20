@@ -32,6 +32,7 @@ func NewRunCommand() *cobra.Command {
 	flag := cmd.Flags()
 
 	flag.StringVarP(&opt.Address, "address", "", ":8080", "http listen address")
+	flag.IntVarP(&opt.DebugAddress, "debug-address", "", 18080, "http debug address, only localhost")
 	flag.StringVarP(&opt.SqlitePath, "sqlite-path", "", "./lc.db", "sqlite3 file path")
 	flag.BoolVarP(&opt.EnableCron, "enable-cron", "", false, "if enable cron")
 

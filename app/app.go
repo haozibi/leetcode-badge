@@ -35,6 +35,9 @@ type APP struct {
 	userMap   map[string]time.Time
 	recordMap map[string]time.Time
 
+	userInfoMu sync.Mutex
+	userInfo   map[string]time.Time
+
 	wg               tools.WaitGroupWrapper
 	shutdown         chan struct{}
 	shutdownComplete chan struct{}
@@ -49,6 +52,7 @@ func New(cfg Config) *APP {
 		group:            new(singleflight.Group),
 		userMap:          make(map[string]time.Time),
 		recordMap:        make(map[string]time.Time),
+		userInfo:         make(map[string]time.Time),
 		shutdown:         make(chan struct{}),
 		shutdownComplete: make(chan struct{}),
 	}
@@ -89,6 +93,9 @@ func (a *APP) Run() error {
 	a.wg.Wrap(func() {
 		exitFunc(a.runHTTP())
 	})
+	a.wg.Wrap(func() {
+		exitFunc(a.runInterHTTP())
+	})
 
 	if enable {
 		a.Cron(CronSpec)
@@ -111,12 +118,17 @@ func (a *APP) runHTTP() error {
 
 	r := mux.NewRouter()
 	Router(r, a, ioutil.Discard)
+	handle := handlers.RecoveryHandler()(handlers.CompressHandler(r))
+	return a.runhttp(address, handle)
+}
+
+func (a *APP) runhttp(address string, handle http.Handler) error {
 
 	srv := &http.Server{
 		Addr:         address,
 		WriteTimeout: 120 * time.Second,
 		ReadTimeout:  120 * time.Second,
-		Handler:      handlers.RecoveryHandler()(handlers.CompressHandler(r)),
+		Handler:      handle,
 	}
 
 	go func() {
