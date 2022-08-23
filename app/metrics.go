@@ -50,7 +50,7 @@ func (a *APP) ShowUserInfo(w http.ResponseWriter, r *http.Request) {
 	a.userInfoMu.Unlock()
 
 	sort.Slice(list, func(i, j int) bool {
-		return list[i].Name < list[j].Name
+		return list[i].Time > list[j].Time
 	})
 
 	body, _ := json.Marshal(list)
