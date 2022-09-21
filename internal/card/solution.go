@@ -7,11 +7,12 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/haozibi/leetcode-badge/internal/i18n"
 	"github.com/haozibi/leetcode-badge/internal/models"
 	"github.com/haozibi/leetcode-badge/internal/statics"
 )
 
-func QuestionProcess(name string, data *models.UserQuestionPrecess) ([]byte, error) {
+func QuestionProcess(name string, data *models.UserQuestionPrecess, i18 i18n.QuestionProcess) ([]byte, error) {
 	var (
 		baseLen = 215
 	)
@@ -36,12 +37,14 @@ func QuestionProcess(name string, data *models.UserQuestionPrecess) ([]byte, err
 		HardTotal:   data.Hard.TotalNum,
 
 		AcceptNum: data.Overview.AcceptedNum,
+
+		QuestionProcess: i18,
 	}
 
 	return build(statics.TemplateQuestionProcess(), info)
 }
 
-func ContestRanking(name string, data *models.UserContestRankingInfo) ([]byte, error) {
+func ContestRanking(name string, data *models.UserContestRankingInfo, i18 i18n.ContestRanking) ([]byte, error) {
 	info := ContestRankingInfo{
 		Name:          name,
 		Rating:        fmt.Sprintf("%d", int(data.Rating)),
@@ -52,6 +55,8 @@ func ContestRanking(name string, data *models.UserContestRankingInfo) ([]byte, e
 		GlobalTotal: fmt.Sprintf("/%d", data.GlobalTotalParticipants),
 
 		Top: fmt.Sprintf("%0.2f%%", 100.0-data.TopPercentage),
+
+		ContestRanking: i18,
 	}
 	return build(statics.TemplateContestRanking(), info)
 }
@@ -81,6 +86,8 @@ type ContestRankingInfo struct {
 	GlobalTotal string
 
 	Top string
+
+	i18n.ContestRanking
 }
 
 type QuestionProcessInfo struct {
@@ -100,4 +107,6 @@ type QuestionProcessInfo struct {
 	HardTotal   int
 
 	AcceptNum int
+
+	i18n.QuestionProcess
 }

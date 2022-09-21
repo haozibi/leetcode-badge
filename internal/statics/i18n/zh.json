@@ -1,0 +1,16 @@
+{
+  "question_process": {
+    "key_detail": "解题进度",
+    "key_easy": "简单",
+    "key_medium": "中等",
+    "key_hard": "困难",
+    "key_solved": "解题数量"
+  },
+  "contest_ranking": {
+    "key_detail": "竞赛详情",
+    "key_beats": "击败",
+    "key_score": "竞赛分数",
+    "key_global_ranking": "全球排名",
+    "key_local_ranking": "全国排名"
+  }
+}

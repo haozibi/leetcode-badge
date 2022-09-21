@@ -18,6 +18,7 @@ import (
 
 	"github.com/haozibi/leetcode-badge/internal/cache"
 	"github.com/haozibi/leetcode-badge/internal/cache/memory"
+	"github.com/haozibi/leetcode-badge/internal/i18n"
 	"github.com/haozibi/leetcode-badge/internal/storage"
 	"github.com/haozibi/leetcode-badge/internal/storage/sqlite"
 	"github.com/haozibi/leetcode-badge/internal/tools"
@@ -64,7 +65,11 @@ func (a *APP) Setup() (err error) {
 	path := a.config.SqlitePath
 
 	a.cache = memory.New()
-	a.store, err = sqlite.New(path)
+	if a.store, err = sqlite.New(path); err != nil {
+		return err
+	}
+
+	err = i18n.InitI18n()
 	return err
 }
 

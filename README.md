@@ -187,6 +187,11 @@
 
 *还需要对模版做美化*
 
+展示支持多种语言，参数 `?lang=en`
+
+- zh: 中文(默认值)
+- en: 英文
+
 <details><summary>做题进度</summary>
 <p>
 
@@ -196,7 +201,7 @@
 
 ![](https://leetcode-badge.haozibi.dev/v1cn/card/question-process/haozibi.svg)
 
-- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/card/question-process/{LeetCode_ID}.svg`
+- LeetCodeCN: `https://leetcode-badge.haozibi.dev/v1cn/card/question-process/{LeetCode_ID}.svg?lang=en`
 
 </p>
 </details>

@@ -52,6 +52,31 @@ func color(color string) []byte {
 	return nil
 }
 
+func ListI18n() []I18nInfo {
+	fs, err := f.ReadDir("i18n")
+	if err != nil {
+		panic(err)
+	}
+
+	list := make([]I18nInfo, 0, len(fs))
+	for _, v := range fs {
+		if !v.IsDir() {
+			body := readBody("i18n/" + v.Name())
+			list = append(list, I18nInfo{
+				Name: v.Name(),
+				Body: body,
+			})
+		}
+	}
+
+	return list
+}
+
+type I18nInfo struct {
+	Name string
+	Body []byte
+}
+
 func readBody(name string) []byte {
 	body, err := f.ReadFile(name)
 	if err != nil {

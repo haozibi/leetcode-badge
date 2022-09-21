@@ -1,0 +1,16 @@
+{
+  "question_process": {
+    "key_detail": "Solved Problems",
+    "key_easy": "Easy",
+    "key_medium": "Medium",
+    "key_hard": "Hard",
+    "key_solved": "Solved"
+  },
+  "contest_ranking": {
+    "key_detail": "Contest",
+    "key_beats": "Beats",
+    "key_score": "Contest Score",
+    "key_global_ranking": "Global Ranking",
+    "key_local_ranking": "Local Ranking"
+  }
+}
