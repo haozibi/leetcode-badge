@@ -2,9 +2,9 @@ package shield
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/pkg/errors"
@@ -19,8 +19,8 @@ func Badge(query url.Values, left, right, color string) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	uri := fmt.Sprintf("https://img.shields.io/badge/%s-%s-%s", left, right, color)
-
+	param := encoding(left) + "-" + encoding(right) + "-" + color
+	uri := "https://img.shields.io/badge/" + param
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, uri, nil)
 	if err != nil {
 		return nil, errors.Wrap(err, "http request")
@@ -33,4 +33,13 @@ func Badge(query url.Values, left, right, color string) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+// Dashes --	→	- Dash
+// Underscores __	→	_ Underscore
+// _ or Space  	→	  Space
+func encoding(s string) string {
+	s = strings.ReplaceAll(s, "-", "--")
+	s = strings.ReplaceAll(s, "_", "__")
+	return s
 }
