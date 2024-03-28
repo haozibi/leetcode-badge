@@ -21,7 +21,7 @@ func GetFollow(name string) (*FollowInfo, error) {
 	}
 
 	var (
-		uri    = "https://leetcode-cn.com/graphql/noty"
+		uri    = "https://leetcode.cn/graphql/noty"
 		method = http.MethodPost
 		client = http.DefaultClient
 		p      = DataFollow{}
