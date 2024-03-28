@@ -22,10 +22,10 @@ func SendRaw(client *http.Client, uri string, method string, query string) ([]by
 		return nil, errors.Wrapf(err, "uri: %s, method: %s, query: %s", uri, method, query)
 	}
 
-	req.Header.Add("origin", "https://leetcode-cn.com")
+	req.Header.Add("origin", "https://leetcode.cn")
 	req.Header.Add("user-agent", getUserAgent())
 	req.Header.Add("content-type", "application/json")
-	req.Header.Add("referer", "https://leetcode-cn.com")
+	req.Header.Add("referer", "https://leetcode.cn")
 
 	resp, err := client.Do(req)
 	if err != nil {

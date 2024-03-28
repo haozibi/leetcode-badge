@@ -14,7 +14,7 @@ func GetSubCal(name string) (map[string]int, error) {
 		return nil, errors.Errorf("miss user name")
 	}
 
-	uri := fmt.Sprintf("https://leetcode-cn.com/api/user_submission_calendar/%s/", name)
+	uri := fmt.Sprintf("https://leetcode.cn/api/user_submission_calendar/%s/", name)
 
 	body, err := SendRaw(http.DefaultClient, uri, http.MethodGet, "")
 	if err != nil {
